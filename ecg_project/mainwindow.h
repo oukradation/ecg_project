@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QAudioInput>
+#include <QFile>
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +19,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QFile destinationFile;   // Class member
+    QAudioInput* audio; // Class member
+
 };
 
 #endif // MAINWINDOW_H
