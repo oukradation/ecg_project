@@ -5,6 +5,15 @@ This project is digital processing ECG signal and classification of the siginal 
 Qt GUI will be the skeleton of the program. Sensor for this program will be 3 lead ECG made as result of "Medical instrumentation". ECG signal will go through basic 2.order bandpass filter, then octo-coupler and will be sampled by computer thorugh 3.5mm audio jack. Qt interface will show oscilloscope like signal view and other measured parameters ( Bpm, etc ) and result of classification.
 
 ## process
+
+### 7.feb
+#### Log
+* Sucessfully tested qml oscilloscope
+#### TODO
+* Replace generateData function with a receiveData function, which will receive realtime sampled ecg signal
+* Edit qmloscilloscope graphical user interface with relevant functionality
+
+
 ### 1.feb
 #### So far
 * Have seen that ecg signal reads in through audio jack nicely.
