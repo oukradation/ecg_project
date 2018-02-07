@@ -78,7 +78,19 @@ ChartView {
             var series2 = chartView.createSeries(ChartView.SeriesTypeLine, "signal 2",
                                                  axisX, axisY2);
             series2.useOpenGL = chartView.openGL
-        } else {
+        }
+
+        else if(type == "spline") {
+            var series1 = chartView.createSeries(ChartView.SeriesTypeSpline, "signal 1",
+                                                 axisX, axisY1);
+            series1.useOpenGL = chartView.openGL
+
+            var series2 = chartView.createSeries(ChartView.SeriesTypeSpline, "signal 1",
+                                                             axisX, axisY1);
+            series2.useOpenGL = chartView.openGL
+        }
+
+        else {
             var series1 = chartView.createSeries(ChartView.SeriesTypeScatter, "signal 1",
                                                  axisX, axisY1);
             series1.markerSize = 2;

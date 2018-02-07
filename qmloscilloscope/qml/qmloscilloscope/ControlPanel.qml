@@ -29,7 +29,7 @@ ColumnLayout {
 
     MultiButton {
         text: "Graph: "
-        items: ["line", "scatter"]
+        items: ["line", "scatter", "spline"]
         currentSelection: 0
         onSelectionChanged: seriesTypeChanged(items[currentSelection]);
     }
