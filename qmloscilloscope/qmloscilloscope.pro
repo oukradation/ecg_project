@@ -1,11 +1,14 @@
 QT += charts qml quick
 
 HEADERS += \
-    datasource.h
+    datasource.h \
+    ../portaudio/include/portaudio.h \
+    rawsignal.h
 
 SOURCES += \
     main.cpp \
-    datasource.cpp
+    datasource.cpp \
+    rawsignal.cpp
 
 RESOURCES += \
     resources.qrc \
