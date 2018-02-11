@@ -8,6 +8,14 @@ Qt GUI will be the skeleton of the program. Sensor for this program will be 3 le
 * https://doc.qt.io/qt-5.10/qmltypes.html
 
 ## process
+### 11.feb
+#### Log
+* Created ring buffer with callbackfunction. test was written in `paex_record.c`. Compiled with `gcc paex_record.c libportaudio.a -lm -lasound -pthread -o paex_record.out` with .h file and .a file present in a same directory.
+* callback function updates buffer with given length ( frames per buffer ). 
+
+#### TODO
+* Write a wrapper for Qt. Take a look at example cpp file in portaudio example folder.
+
 
 ### 7.feb
 #### Log
