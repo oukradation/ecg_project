@@ -51,7 +51,11 @@ DataSource::DataSource(QQuickView *appViewer, QObject *parent) :
     qRegisterMetaType<QAbstractSeries*>();
     qRegisterMetaType<QAbstractAxis*>();
 
-    generateData(0, 5, 1024);
+    inputSignal = new rawsignal();
+    inputSignal->open();
+    inputSignal->start();
+
+    generateData(0, 1, 8000);
 }
 
 void DataSource::update(QAbstractSeries *series)
@@ -73,6 +77,8 @@ void DataSource::generateData(int type, int rowCount, int colCount)
     // Remove previous data
     m_data.clear();
 
+    float *data = inputSignal->getData();
+
     // Append the new data depending on the type
     for (int i(0); i < rowCount; i++) {
         QVector<QPointF> points;
@@ -83,7 +89,8 @@ void DataSource::generateData(int type, int rowCount, int colCount)
             switch (type) {
             case 0:
                 // data with sin + random component
-                y = qSin(M_PI / 50 * j) + 0.5 + QRandomGenerator::global()->generateDouble();
+                //y = qSin(M_PI / 50 * j) + 0.5 + QRandomGenerator::global()->generateDouble();
+                y = data[j]*10;
                 x = j;
                 break;
             case 1:

@@ -48,7 +48,7 @@ ColumnLayout {
     MultiButton {
         id: sampleCountButton
         text: "Samples: "
-        items: ["6", "128", "1024", "10000"]
+        items: ["8000"]
         currentSelection: 2
         onSelectionChanged: signalSourceChanged(
                                 signalSourceButton.items[signalSourceButton.currentSelection],

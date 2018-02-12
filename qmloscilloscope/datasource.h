@@ -4,6 +4,7 @@
 
 #include <QtCore/QObject>
 #include <QtCharts/QAbstractSeries>
+#include "rawsignal.h"
 
 class QQuickView;
 
@@ -25,6 +26,7 @@ private:
     QQuickView *m_appViewer;
     QList<QVector<QPointF> > m_data;
     int m_index;
+    rawsignal *inputSignal;
 };
 
 //#endif DATASOURCE_H

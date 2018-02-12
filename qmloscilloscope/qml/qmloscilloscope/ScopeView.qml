@@ -10,7 +10,6 @@ ChartView {
     onOpenGLChanged: {
         if (openGLSupported) {
             series("signal 1").useOpenGL = openGL;
-            series("signal 2").useOpenGL = openGL;
         }
     }
     Component.onCompleted: {
@@ -45,14 +44,6 @@ ChartView {
         axisY: axisY1
         useOpenGL: chartView.openGL
     }
-    LineSeries {
-        id: lineSeries2
-        name: "signal 2"
-        axisX: axisX
-        axisYRight: axisY2
-        useOpenGL: chartView.openGL
-    }
-
     Timer {
         id: refreshTimer
         interval: 1 / 60 * 1000 // 60 Hz
@@ -74,20 +65,6 @@ ChartView {
             var series1 = chartView.createSeries(ChartView.SeriesTypeLine, "signal 1",
                                                  axisX, axisY1);
             series1.useOpenGL = chartView.openGL
-
-            var series2 = chartView.createSeries(ChartView.SeriesTypeLine, "signal 2",
-                                                 axisX, axisY2);
-            series2.useOpenGL = chartView.openGL
-        }
-
-        else if(type == "spline") {
-            var series1 = chartView.createSeries(ChartView.SeriesTypeSpline, "signal 1",
-                                                 axisX, axisY1);
-            series1.useOpenGL = chartView.openGL
-
-            var series2 = chartView.createSeries(ChartView.SeriesTypeSpline, "signal 1",
-                                                             axisX, axisY1);
-            series2.useOpenGL = chartView.openGL
         }
 
         else {
@@ -96,12 +73,6 @@ ChartView {
             series1.markerSize = 2;
             series1.borderColor = "transparent";
             series1.useOpenGL = chartView.openGL
-
-            var series2 = chartView.createSeries(ChartView.SeriesTypeScatter, "signal 2",
-                                                 axisX, axisY2);
-            series2.markerSize = 2;
-            series2.borderColor = "transparent";
-            series2.useOpenGL = chartView.openGL
         }
     }
 
