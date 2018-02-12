@@ -1,2 +1,4 @@
 build-*
 ecg_project/ecg_project.pro.user
+*.swp
+qmloscilloscope/qmloscilloscope.pro.user
