@@ -8,6 +8,19 @@ Qt GUI will be the skeleton of the program. Sensor for this program will be 3 le
 * https://doc.qt.io/qt-5.10/qmltypes.html
 
 ## process
+### 12.feb
+#### Log
+* Added rawsignal class implementing portaudio in oscilloscope qt application. compiles and runs ok.
+* Buffer is created in rawsignal object and pointer to buffer can be acquired by `getData()` function. 
+* Buffer size is at the moment sample rate ( 8000 ) * 1 sec. with float as data type.
+* It's kind of ringbuffer. When buffer is filled, it starts overwrite from the start.
+* Display is not updated automatically. - removed signal 2 and other sample sizes
+
+#### TODO
+* Find out how oscilloscope updating works and implement signal and slot to rawsignal class so that it can emit signal to update mechanism.
+* Since we have buffer now, we need to look into processing the buffer.
+
+
 ### 11.feb
 #### Log
 * Created ring buffer with callbackfunction. test was written in `paex_record.c`. Compiled with `gcc paex_record.c libportaudio.a -lm -lasound -pthread -o paex_record.out` with .h file and .a file present in a same directory.
