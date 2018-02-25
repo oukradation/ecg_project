@@ -8,6 +8,19 @@ Qt GUI will be the skeleton of the program. Sensor for this program will be 3 le
 * https://doc.qt.io/qt-5.10/qmltypes.html
 
 ## process
+### 25.feb
+#### Log
+* Now viewer is updated real time. 
+
+#### TODO
+* Find out how to do signal processing   
+   * signal processing direct on port audio callback function? - currently 8000 samples in 1s
+   * create an external buffer for signal processing then connect it to the viewer? - STL container
+* Design filters
+* Design interface 
+   * what are we going to show? 
+   * BPM
+
 ### 12.feb
 #### Log
 * Added rawsignal class implementing portaudio in oscilloscope qt application. compiles and runs ok.
