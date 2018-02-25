@@ -22,6 +22,9 @@ public slots:
     void generateData(int type, int rowCount, int colCount);
     void update(QAbstractSeries *series);
 
+signals:
+    void gendata();
+
 private:
     QQuickView *m_appViewer;
     QList<QVector<QPointF> > m_data;

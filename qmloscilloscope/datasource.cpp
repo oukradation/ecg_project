@@ -65,6 +65,7 @@ void DataSource::update(QAbstractSeries *series)
         m_index++;
         if (m_index > m_data.count() - 1)
             m_index = 0;
+        emit gendata();
 
         QVector<QPointF> points = m_data.at(m_index);
         // Use replace instead of clear + append, it's optimized for performance
@@ -90,7 +91,7 @@ void DataSource::generateData(int type, int rowCount, int colCount)
             case 0:
                 // data with sin + random component
                 //y = qSin(M_PI / 50 * j) + 0.5 + QRandomGenerator::global()->generateDouble();
-                y = data[j]*10;
+                y = data[j]*8+1;
                 x = j;
                 break;
             case 1:

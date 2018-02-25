@@ -52,6 +52,7 @@ ChartView {
         onTriggered: {
             dataSource.update(chartView.series(0));
             dataSource.update(chartView.series(1));
+            dataSource.generateData(0,1,8000);
         }
     }
 
