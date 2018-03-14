@@ -8,6 +8,14 @@ Qt GUI will be the skeleton of the program. Sensor for this program will be 3 le
 * https://doc.qt.io/qt-5.10/qmltypes.html
 
 ## process
+### 14.mar
+#### Log
+* Notch filter implemented (IIR direct II transposed)
+* other IIR filters can just be implemented by changing some stuff from notchfilter 
+#### TODO
+* general base filter class which can be subclassed to usage? -> some c++ programing to get some points
+* clean up qmloscilloscope -> too much garbage and unnecessary functions
+
 ### 25.feb
 #### Log
 * Now viewer is updated real time. 
