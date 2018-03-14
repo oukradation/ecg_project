@@ -26,15 +26,9 @@ ChartView {
     }
 
     ValueAxis {
-        id: axisY2
-        min: -10
-        max: 5
-    }
-
-    ValueAxis {
         id: axisX
         min: 0
-        max: 1024
+        max: 8000
     }
 
     LineSeries {

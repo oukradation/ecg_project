@@ -5,12 +5,14 @@ CONFIG += c++11
 HEADERS += \
     datasource.h \
     ../portaudio/include/portaudio.h \
-    rawsignal.h
+    rawsignal.h \
+    notchfilter.h
 
 SOURCES += \
     main.cpp \
     datasource.cpp \
-    rawsignal.cpp
+    rawsignal.cpp \
+    notchfilter.cpp
 
 RESOURCES += \
     resources.qrc \

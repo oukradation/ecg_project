@@ -14,7 +14,7 @@ Item {
         anchors.leftMargin: 10
 
         onSignalSourceChanged: {
-            if (source == "sin")
+            if (source == "raw")
                 dataSource.generateData(0, signalCount, sampleCount);
             else
                 dataSource.generateData(1, signalCount, sampleCount);

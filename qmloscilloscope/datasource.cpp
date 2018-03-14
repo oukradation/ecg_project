@@ -55,6 +55,9 @@ DataSource::DataSource(QQuickView *appViewer, QObject *parent) :
     inputSignal->open();
     inputSignal->start();
 
+    // notch filter for 50Hz noise reduction
+    notch = new Notchfilter(50.0, 8000.0, 0.99);
+
     generateData(0, 1, 8000);
 }
 
@@ -89,15 +92,15 @@ void DataSource::generateData(int type, int rowCount, int colCount)
             qreal y(0);
             switch (type) {
             case 0:
-                // data with sin + random component
-                //y = qSin(M_PI / 50 * j) + 0.5 + QRandomGenerator::global()->generateDouble();
-                y = data[j]*8+1;
+                // no filter
+                //y = data[j]*8+1;
+                // 50Hz filter
+                y = notch->filter(data[j])*8+1;
                 x = j;
                 break;
             case 1:
-                // linear data
                 x = j;
-                y = (qreal) i / 10;
+                y = notch->filter(data[j])*8+1;
                 break;
             default:
                 // unknown, do nothing

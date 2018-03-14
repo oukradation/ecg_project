@@ -5,6 +5,7 @@
 #include <QtCore/QObject>
 #include <QtCharts/QAbstractSeries>
 #include "rawsignal.h"
+#include "notchfilter.h"
 
 class QQuickView;
 
@@ -30,6 +31,7 @@ private:
     QList<QVector<QPointF> > m_data;
     int m_index;
     rawsignal *inputSignal;
+    Notchfilter *notch;
 };
 
 //#endif DATASOURCE_H

@@ -37,7 +37,7 @@ ColumnLayout {
     MultiButton {
         id: signalSourceButton
         text: "Source: "
-        items: ["sin", "linear"]
+        items: ["raw", "filtered"]
         currentSelection: 0
         onSelectionChanged: signalSourceChanged(
                                 selection,

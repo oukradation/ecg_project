@@ -26,18 +26,18 @@ for a 2 order IIR filter described by
 $$H(z) = \frac{b_0+b_1 z^{-1}+b_2 z^{-2}}{1+a_1 z^{-1} + a_2 z^{-2}}$$
 
 So for our notch filter:
-* $a_1 = 2\cdot r \cos{2\pi\frac{f}{f_s}}$
+* $a_1 = -2\cdot r \cos{2\pi\frac{f}{f_s}}$
 * $a_2 = r^2$
 * $b_0 = b_2 = 1$  ( gain 1 )
-* $b_1 = 2\cdot\cos{2\pi\frac{f}{f_s}}$
+* $b_1 = -2\cdot\cos{2\pi\frac{f}{f_s}}$
 
 ## Psuedo Code
 ```
-1. define static variables - prev_v1, prev_v2, prev_yn = 0
+1. define static variables - prev_v1, prev_v2 = 0
 2. compute constant coefficients based on sampling freq, target freq, and degree of selection
-3. compute v2 = xn - r^2*yn 
-4. compute v1 = prev_v2 - 2*r*cos(2*PI*f/fs)*yn + 2*cos(2*PI*f/fs)*xn
-5. compute yn = prev_v1 + xn
+3. compute yn = prev_v1 + xn
+4. compute v1 = prev_v2 - a_1*yn + b_1*xn
+5. compute v2 = xn - a_2*yn 
 6. update static variables
-7. return xn
+7. return yn
 ```
