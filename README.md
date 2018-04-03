@@ -15,9 +15,8 @@ Qt GUI will be the skeleton of the program. Sensor for this program will be 3 le
 * Filtrere bort EMG
 * Implementere filterklasse - bl.a. notch filter
 * Demonstrere objekorientering ved å endre filter ved hjelp av å arve fra base filterklasse
-* Lage sykehusovervåkningsklasse - skal rapportere om unormale utslag på PQRST-kurven, rapportere om store endringer i puls osv.
+* Lage sykehusovervåkningsklasse - skal rapportere om unormale utslag på PQRST-kurven, rapportere om store endringer i puls(bpm) osv.
 * Endre mellom 2-3 ulike filter i GUI
-
 
 
 ### 14.mar
