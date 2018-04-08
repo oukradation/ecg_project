@@ -7,7 +7,23 @@ Qt GUI will be the skeleton of the program. Sensor for this program will be 3 le
 ## QML documentation:
 * https://doc.qt.io/qt-5.10/qmltypes.html
 
+
+
 ## process
+
+### 8.apr
+#### Suggestion filter architectur:
+
+Baseclass: DSPFilters
+
+* Class ButterWorth - inherit from DSPFilters Class
+* Class Chebyshev - inherit from DSPFilters Class
+* Class Elliptic - inherit from DSPFilters Class 
+
+* Class Notch  - inherit from ButterWorth filter, Chebyshev and Elliptic
+* Class Lowpass - inherit from Butterworth, chebyshev and Elliptic
+* Class Highpass - inherit from Butterworth, chebyshew and Elliptic
+
 ### 3.apr
 #### Log
 
