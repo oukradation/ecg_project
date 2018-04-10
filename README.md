@@ -8,7 +8,7 @@ Qt GUI will be the skeleton of the program. Sensor for this program will be 3 le
 * https://doc.qt.io/qt-5.10/qmltypes.html
 
 
-[embed]Class Architecture.pdf[/embed]
+[embed]../docs/Class' 'Architecture.pdf[/embed]
 
 ## process
 
