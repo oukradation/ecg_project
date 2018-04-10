@@ -7,7 +7,7 @@ Qt GUI will be the skeleton of the program. Sensor for this program will be 3 le
 ## QML documentation:
 * https://doc.qt.io/qt-5.10/qmltypes.html
 
-![](Class_arch.pdf)
+![](class_image.png){ width=50% height=50% }
 
 ## process
 
