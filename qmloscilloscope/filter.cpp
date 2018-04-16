@@ -1,6 +1,15 @@
-#include "notchfilter.h"
+#include "filter.h"
 
-Notchfilter::Notchfilter(float target_freq, float sample_freq, float degree)
+float Iirfilter::filter(float xn)
+{
+	vector<float> vn;
+	
+	
+
+	return 0;
+}
+
+void Notchfilter::calc_coef(float target_freq, float sample_freq, float degree)
 {
     // initial condition
     _v1_prev = _v2_prev = 0;

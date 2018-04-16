@@ -13,7 +13,7 @@ $\omega_0$ is frequency to get rid of  $\omega_0=2\pi\frac{f}{f_s}$
 
 ## Structure
 
-![IIR transposed direct 2][iir.png]
+![IIR transposed direct 2](iir.png)
 
 Filter will be realized with most used IIR transposed direct form 2 ( zero first )
 
