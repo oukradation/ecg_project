@@ -25,7 +25,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        widget.cpp
+        widget.cpp \
+    Biquad.cpp \
+    Butterworth.cpp \
+    filter.cpp \
+    notchfilter.cpp \
+    xyseriesiodevice.cpp
 
 HEADERS += \
-        widget.h
+        widget.h \
+    Biquad.h \
+    Butterworth.h \
+    filter.h \
+    notchfilter.h \
+    xyseriesiodevice.h
