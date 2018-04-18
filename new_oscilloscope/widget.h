@@ -1,12 +1,14 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
-#include <QtWidgets/QWidget>
 #include <QWidget>
 #include <QPushButton>
 #include <QGroupBox>
 #include <QtCharts/QChartGlobal>
-
+#include <QLineEdit>
+#include <QLabel>
+#include <QSlider>
+#include <vector>
 
 QT_CHARTS_BEGIN_NAMESPACE
 class QLineSeries;
@@ -34,15 +36,20 @@ public:
 
 private slots:
    void handleButton();
+   void valueChanged(int);
+
 private:
 
    enum { NumButtons = 4 };
-   QGroupBox *horizontalGroupBox;
-   QPushButton *buttons[NumButtons];
-   XYSeriesIODevice *m_device;
-   QChart *m_chart;
-   QLineSeries *m_series;
-   QAudioInput *m_audioInput;
+   QGroupBox *_horizontalGroupBox;
+   QSlider *_filterSlider[NumButtons];
+   QLabel *_filterLabel[NumButtons];
+   QLabel *_filterFrequency[NumButtons];
+   QPushButton *_buttons[NumButtons];
+   XYSeriesIODevice *_m_device;
+   QChart *_m_chart;
+   QLineSeries *_m_series;
+   QAudioInput *_m_audioInput;
 
 };
 

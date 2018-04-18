@@ -1,44 +1,60 @@
 #include "widget.h"
+#include "xyseriesiodevice.h"
 
 #include <QtMultimedia/QAudioDeviceInfo>
 #include <QtMultimedia/QAudioInput>
-#include <QCoreApplication>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-#include <iostream>
 #include <QtCharts/QChartView>
 #include <QtCharts/QLineSeries>
 #include <QtCharts/QValueAxis>
-#include <QtCharts/QChart>
-#include "xyseriesiodevice.h"
-
+#include <iostream>
 
 QT_CHARTS_USE_NAMESPACE
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent),
-      m_chart(0),
-      m_series(0),
-      m_audioInput(0),
-      m_device(0)
+      _m_device(0),
+      _m_chart(0),
+      _m_series(0),
+      _m_audioInput(0)
 {
 
-    horizontalGroupBox = new QGroupBox;
-    QHBoxLayout *layout = new QHBoxLayout;
-
+    _horizontalGroupBox = new QGroupBox;
+    QVBoxLayout *verticalFilterLayout = new QVBoxLayout;
+    std::vector<string> names = {"Notch","Band pass","Low pass","High pass"};
     for (int i = 0; i < NumButtons; ++i) {
-        buttons[i] = new QPushButton(tr("Filter %1").arg(i + 1));
-        connect(buttons[i], SIGNAL (released()), this, SLOT (handleButton()));
-        layout->addWidget(buttons[i]);
+        _buttons[i] = new QPushButton(tr(names[i].c_str()));
+        connect(_buttons[i], SIGNAL (released()), this, SLOT (handleButton()));
+        QVBoxLayout *verticalFilterInstance = new QVBoxLayout;
+        verticalFilterInstance->addWidget(_buttons[i]);
+
+        _filterLabel[i] = new QLabel(tr("Frequency"));
+        _filterSlider[i] = new QSlider(Qt::Horizontal);
+        connect(_filterSlider[i], SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
+        _filterSlider[i]->setRange(0,100);
+        _filterSlider[i]->setTickPosition(QSlider::TicksBothSides);
+        _filterSlider[i]->setTickInterval(10);
+        _filterSlider[i]->setSingleStep(1);
+        verticalFilterInstance->addWidget(_filterLabel[i]);
+        QHBoxLayout *horizontalSliderLayout = new QHBoxLayout;
+        horizontalSliderLayout->addWidget(_filterSlider[i]);
+        _filterFrequency[i] = new QLabel(this);
+        connect(_filterSlider[i], SIGNAL(valueChanged(int)), _filterFrequency[i], SLOT(setNum(int)));
+
+        _filterFrequency[i]->setText("0");
+        horizontalSliderLayout->addWidget(_filterFrequency[i]);
+        verticalFilterInstance->addLayout(horizontalSliderLayout);
+        verticalFilterLayout->addLayout(verticalFilterInstance);
     }
-    horizontalGroupBox->setLayout(layout);
 
+    _horizontalGroupBox->setLayout(verticalFilterLayout);
 
-    m_chart = new QChart;
-    QChartView *chartView = new QChartView(m_chart);
+    _m_chart = new QChart;
+    QChartView *chartView = new QChartView(_m_chart);
     chartView->setMinimumSize(850, 500);
-    m_series = new QLineSeries;
-    m_chart->addSeries(m_series);
+    _m_series = new QLineSeries;
+    _m_chart->addSeries(_m_series);
     QValueAxis *axisX = new QValueAxis;
     axisX->setRange(0, 10);
     axisX->setLabelFormat("%g");
@@ -46,19 +62,16 @@ Widget::Widget(QWidget *parent)
     QValueAxis *axisY = new QValueAxis;
     axisY->setRange(-2, 2);
     axisY->setTitleText("mV");
-    m_chart->setAxisX(axisX, m_series);
-    m_chart->setAxisY(axisY, m_series);
-    m_chart->legend()->hide();
-    m_chart->setTitle("ECG Signal");
+    _m_chart->setAxisX(axisX, _m_series);
+    _m_chart->setAxisY(axisY, _m_series);
+    _m_chart->legend()->hide();
+    _m_chart->setTitle("ECG Signal");
 
 
-
-    QVBoxLayout *mainLayout = new QVBoxLayout;
-    mainLayout->addWidget(horizontalGroupBox);
+    QHBoxLayout *mainLayout = new QHBoxLayout;
     mainLayout->addWidget(chartView);
+    mainLayout->addWidget(_horizontalGroupBox);
     setLayout(mainLayout);
-
-
 
     QAudioFormat formatAudio;
     formatAudio.setSampleRate(8000);
@@ -69,23 +82,28 @@ Widget::Widget(QWidget *parent)
     formatAudio.setSampleType(QAudioFormat::UnSignedInt);
 
     QAudioDeviceInfo inputDevices = QAudioDeviceInfo::defaultInputDevice();
-    m_audioInput = new QAudioInput(inputDevices,formatAudio, this);
-
-    m_device = new XYSeriesIODevice(m_series, this);
-    m_device->open(QIODevice::WriteOnly);
-
-    m_audioInput->start(m_device);
+    _m_audioInput = new QAudioInput(inputDevices,formatAudio, this);
+    _m_device = new XYSeriesIODevice(_m_series, this);
+    _m_device->open(QIODevice::WriteOnly);
+    _m_audioInput->start(_m_device);
 }
 
 
 void Widget::handleButton()
 {
-    std::cout << "button pressed!!!" << std::endl;
+    QPushButton* buttonSender = qobject_cast<QPushButton*>(sender()); // retrieve the button you have clicked
+    QString buttonText = buttonSender->text();
+    std::cout << "button " << buttonText.toStdString() << " pressed!" << std::endl;
 }
+
+void Widget::valueChanged (int k) {
+    std::cout << k << std::endl;
+}
+
 Widget::~Widget()
 {
-    m_audioInput->stop();
-    m_device->close();
+    _m_audioInput->stop();
+    _m_device->close();
 }
 
 
