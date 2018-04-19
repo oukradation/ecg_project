@@ -8,14 +8,9 @@
 int main(int argc, char *argv[])
 {
    QApplication app(argc, argv);
-   QWidget window;
-   window.resize(1050, 600);
-   window.show();
-   window.setWindowTitle(
-       QApplication::translate("Parent widget", "Oscilloscope"));
 
-   Widget mainWidget(&window);
-   mainWidget.showMaximized();
+   Widget w;
+   w.show();
 
    return app.exec();
 }

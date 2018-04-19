@@ -32,7 +32,7 @@
 #include <math.h>
 #include "Butterworth.h"
 
-#define LOG_OUTPUT 1    // Enable output logging
+#define LOG_OUTPUT 0    // Enable output logging
 
 using namespace std;
 

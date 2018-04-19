@@ -8,7 +8,21 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QSlider>
+#include <QtMultimedia/QAudioDeviceInfo>
+#include <QtMultimedia/QAudioInput>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QtCharts/QChartView>
+#include <QtCharts/QLineSeries>
+#include <QtCharts/QValueAxis>
+#include <QListWidgetItem>
+#include <QListWidget>
+
 #include <vector>
+#include <iostream>
+
+#include "xyseriesiodevice.h"
+#include "filtergui.h"
 
 QT_CHARTS_BEGIN_NAMESPACE
 class QLineSeries;
@@ -35,21 +49,15 @@ public:
     ~Widget();
 
 private slots:
-   void handleButton();
    void valueChanged(int);
 
 private:
 
-   enum { NumButtons = 4 };
-   QGroupBox *_horizontalGroupBox;
-   QSlider *_filterSlider[NumButtons];
-   QLabel *_filterLabel[NumButtons];
-   QLabel *_filterFrequency[NumButtons];
-   QPushButton *_buttons[NumButtons];
-   XYSeriesIODevice *_m_device;
-   QChart *_m_chart;
-   QLineSeries *_m_series;
-   QAudioInput *_m_audioInput;
+   QListWidget *m_filter_list;
+   XYSeriesIODevice *m_device;
+   QChart *m_chart;
+   QLineSeries *m_series;
+   QAudioInput *m_audioInput;
 
 };
 
