@@ -33,6 +33,7 @@
 #include <QtCore/QIODevice>
 #include <QtCharts/QChartGlobal>
 #include "filter.h"
+#include "bpm.h"
 
 
 QT_CHARTS_BEGIN_NAMESPACE
@@ -56,9 +57,10 @@ protected:
     qint64 writeData(const char * data, qint64 maxSize);
 
 private:
-    QXYSeries *m_series;
-    Notchfilter *notch;
+    QXYSeries *_m_series;
     bool on;
+    signalProcessing *sig;
+    bpm *sigBpm;
 
 };
 
