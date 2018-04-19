@@ -59,7 +59,6 @@ protected:
 private:
     QXYSeries *_m_series;
     bool on;
-    signalProcessing *sig;
     bpm *sigBpm;
 
 };
