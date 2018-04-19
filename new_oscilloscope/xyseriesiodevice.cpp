@@ -29,16 +29,20 @@
 
 #include "xyseriesiodevice.h"
 #include <QtCharts/QXYSeries>
+#include <iostream>
+
+using namespace std;
 
 XYSeriesIODevice::XYSeriesIODevice(QXYSeries * series, QObject *parent) :
     QIODevice(parent),
-    m_series(series)
+    _m_series(series)
 {
+    sigBpm = new bpm();
     sig = new signalProcessing();
     sig->addFilter(filter(LP, 8000, 100, 0, 4));
-    sig->addFilter(filter(NF, 8000, 50, 0.99, 2));
-    sig->addFilter(filter(HP, 8000, 0, 20, 4));
-    sig->addFilter(filter(NF, 8000, 75, 0.99, 2));
+    //sig->addFilter(filter(NF, 8000, 50, 0.99, 2));
+    //sig->addFilter(filter(HP, 8000, 0, 20, 4));
+    //sig->addFilter(filter(NF, 8000, 75, 0.99, 2));
 
 
     on = false;
@@ -61,12 +65,12 @@ qint64 XYSeriesIODevice::readData(char * data, qint64 maxSize)
 qint64 XYSeriesIODevice::writeData(const char * data, qint64 maxSize)
 {
     qint64 range = 8000;
-    QVector<QPointF> oldPoints = m_series->pointsVector();
+    QVector<QPointF> oldPoints = _m_series->pointsVector();
     QVector<QPointF> points;
     int resolution = 1;
 
     if (oldPoints.count() < range) {
-        points = m_series->pointsVector();
+        points = _m_series->pointsVector();
     } else {
         for (int i = maxSize/resolution; i < oldPoints.count(); i++)
             points.append(QPointF(i - maxSize/resolution, oldPoints.at(i).y()));
@@ -79,9 +83,13 @@ qint64 XYSeriesIODevice::writeData(const char * data, qint64 maxSize)
         if (on) {
             next = sig->process(next);
         }
+
+        //cout << next << endl;
+        float val = sigBpm->calculateBpm(next);
         points.append(QPointF(k + size, next));
+
     }
 
-    m_series->replace(points);
+    _m_series->replace(points);
     return maxSize;
 }
