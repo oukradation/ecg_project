@@ -102,8 +102,13 @@ float signalProcessing::process(float x)
 {
     for ( auto&& filter : _filters )
        x = filter.process(x);
-
     return x;
+}
+#include<iostream>
+bool signalProcessing::changeAttr(int filt_num)
+{
+    std::cout<< "should change attr" << std::endl;
+
 }
 
 void Notchfilter::coefficients(double fs, double f, double r, vector <Biquad>& biquad)

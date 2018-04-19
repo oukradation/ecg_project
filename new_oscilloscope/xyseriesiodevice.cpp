@@ -35,18 +35,11 @@ XYSeriesIODevice::XYSeriesIODevice(QXYSeries * series, QObject *parent) :
     m_series(series)
 {
     sig = new signalProcessing();
-    sig->addFilter(filter(BP, 8000, 2, 40, 8));
-    sig->addFilter(filter(NF, 8000, 50, 0.99, 2));
-
-
     on = false;
 }
 
-#include <iostream>
 void XYSeriesIODevice::notchOn()
 {
-    on = !on;
-    if( on) std::cout<< "Filter on" << std::endl;
 }
 
 qint64 XYSeriesIODevice::readData(char * data, qint64 maxSize)
@@ -74,9 +67,7 @@ qint64 XYSeriesIODevice::writeData(const char * data, qint64 maxSize)
     for (int k = 0; k < maxSize/resolution; k++)
     {
         float next = ((quint8)data[k] - 128)/128.0;
-        //if (on)
-            next = sig->process(next);
-        //}
+        next = sig->process(next);
         points.append(QPointF(k + size, next));
     }
 

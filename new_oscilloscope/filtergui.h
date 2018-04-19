@@ -25,7 +25,7 @@ class filterGui
     Q_OBJECT
 public:
     filterGui(QWidget *parent = 0, filterType type = LP,
-              double f1 = 0, double f2 = 0, int order = 0);
+              int f1 = 0, int f2 = 0, int order = 0);
     ~filterGui(){};
 
     static const char* filter_names[5];

@@ -8,6 +8,8 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QSlider>
+#include <QSpinBox>
+#include <QComboBox>
 #include <QtMultimedia/QAudioDeviceInfo>
 #include <QtMultimedia/QAudioInput>
 #include <QHBoxLayout>
@@ -49,10 +51,20 @@ public:
     ~Widget();
 
 private slots:
-   void valueChanged(int);
+   void addFilter();
+   void delFilter();
+   void changeVolume(int value);
+//   void valueChanged(int);
 
 private:
 
+   QSlider *m_inputVolume;
+   QPushButton *m_newFilter;
+   QPushButton *m_delFilter;
+   QComboBox *m_whichFilter;
+   QSpinBox *m_order;
+   QSpinBox *m_f1;
+   QSpinBox *m_f2;
    QListWidget *m_filter_list;
    XYSeriesIODevice *m_device;
    QChart *m_chart;

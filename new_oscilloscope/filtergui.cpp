@@ -7,7 +7,7 @@ const char* filterGui::filter_names[5] = { "Lowpass",
                                            "Notch"};
 
 
-filterGui::filterGui(QWidget *parent, filterType type, double f1, double f2, int order)
+filterGui::filterGui(QWidget *parent, filterType type, int f1, int f2, int order)
     :   _type(type), _order(order)
 {
     QVBoxLayout *verticalFilterInstance = new QVBoxLayout;
@@ -27,12 +27,11 @@ filterGui::filterGui(QWidget *parent, filterType type, double f1, double f2, int
 
     // add slider for lower cut
     _filterSlider_lower = new QSlider(Qt::Horizontal);
-    _filterSlider_lower->setRange(0,100);
+    _filterSlider_lower->setRange(0,400);
     _filterSlider_lower->setTickPosition(QSlider::TicksBothSides);
     _filterSlider_lower->setTickInterval(10);
     _filterSlider_lower->setSingleStep(1);
     _filterSlider_lower->setValue((int)f1);
-    connect(_filterSlider_lower, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
 
 
     _filterFrequency_lower = new QLabel(this);
@@ -49,12 +48,11 @@ filterGui::filterGui(QWidget *parent, filterType type, double f1, double f2, int
     {
          // add slider for upper cut
         _filterSlider_upper = new QSlider(Qt::Horizontal);
-        _filterSlider_upper->setRange(0,100);
+        _filterSlider_upper->setRange(0,400);
         _filterSlider_upper->setTickPosition(QSlider::TicksBothSides);
         _filterSlider_upper->setTickInterval(10);
         _filterSlider_upper->setSingleStep(1);
         _filterSlider_upper->setValue((int)f2);
-        connect(_filterSlider_upper, SIGNAL(valueChanged(int)), this, SLOT(setValue(int)));
 
         _filterFrequency_upper= new QLabel(this);
         _filterFrequency_upper->setText(QString::number((int)f2));

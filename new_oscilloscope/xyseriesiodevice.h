@@ -46,6 +46,7 @@ class XYSeriesIODevice : public QIODevice
     Q_OBJECT
 public:
     explicit XYSeriesIODevice(QXYSeries * series, QObject *parent = 0);
+    signalProcessing *sig;
 
 public slots:
     void notchOn();
@@ -58,7 +59,6 @@ private:
     QXYSeries *m_series;
     Notchfilter *notch;
     bool on;
-    signalProcessing *sig;
 
 };
 
