@@ -23,6 +23,8 @@ class bpm
 
     public slots:
     private:
+        std::vector<float> _buffer;
+        size_t _buffer_idx;
 
 };
 

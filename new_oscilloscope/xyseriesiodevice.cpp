@@ -83,7 +83,7 @@ qint64 XYSeriesIODevice::writeData(const char * data, qint64 maxSize)
             next = sig->process(next);
         }
 
-        float val = sigBpm->calculateBpm(next);
+        sigBpm->calculateBpm(next);
         points.append(QPointF(k + size, next));
 
     }
