@@ -32,7 +32,8 @@ SOURCES += \
     Butterworth.cpp \
     filter.cpp \
     xyseriesiodevice.cpp \
-    filtergui.cpp
+    filtergui.cpp \
+    bpm.cpp
 
 HEADERS += \
     widget.h \
@@ -40,6 +41,7 @@ HEADERS += \
     Butterworth.h \
     filter.h \
     xyseriesiodevice.h \
-    filtergui.h
+    filtergui.h \
+    bpm.h
 
 FORMS +=
