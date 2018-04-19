@@ -26,6 +26,9 @@ bool filter::adjustFilter(double f1, double f2)
 
 float filter::process(float xn)
 {
+    // only filter if the filter is on
+    if ( !_onoff ) return xn;
+
     // calculate output yn with direct 2 transposed
 	float yn, v1, v2;
 	for ( int i = 0; i < (int)_biquads.size(); i++ )
@@ -40,7 +43,7 @@ float filter::process(float xn)
 	}
 
 #if NORMALIZE
-    if ( _type != NF ) yn = _normalize(yn);
+    yn = _normalize(yn);
 #endif
 
 	return yn;
@@ -48,6 +51,7 @@ float filter::process(float xn)
 
 void filter::_reset()
 {
+    _onoff = true;
     _max = 1.0;
     _v1.resize(getSize());
     _v2.resize(getSize());
@@ -75,6 +79,14 @@ bool filter::_makeFilter(double f1, double f2)
 	return success;
 }
 
+/*
+ * Normalize function implemented due to unpredictable gain from butterworth filter.
+ *
+ * expected maximum output from every filter is 1 to -1
+ * the functions simply updates maximum value and divide output by registered maximum value
+ *
+ * this is temporal solution, so it will only be called when flag is enabled
+ */
 float filter::_normalize(float xn)
 {
     if ( abs(xn) > _max )
@@ -83,6 +95,9 @@ float filter::_normalize(float xn)
     return xn/_max;
 }
 
+/*
+ * process signal through filters connected in serial
+ */
 float signalProcessing::process(float x)
 {
     for ( auto&& filter : _filters )

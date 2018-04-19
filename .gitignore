@@ -1,5 +1,5 @@
 build-*
 ecg_project/ecg_project.pro.user
 *.swp
-qmloscilloscope/qmloscilloscope.pro.user*
+*.pro.user*
 prototyping*

@@ -40,10 +40,8 @@ XYSeriesIODevice::XYSeriesIODevice(QXYSeries * series, QObject *parent) :
     sigBpm = new bpm();
     sig = new signalProcessing();
     sig->addFilter(filter(LP, 8000, 100, 0, 4));
-    //sig->addFilter(filter(NF, 8000, 50, 0.99, 2));
-    //sig->addFilter(filter(HP, 8000, 0, 20, 4));
-    //sig->addFilter(filter(NF, 8000, 75, 0.99, 2));
-
+    sig->addFilter(filter(BP, 8000, 2, 40, 8));
+    sig->addFilter(filter(NF, 8000, 50, 0.99, 2));
 
     on = false;
 }
@@ -80,11 +78,11 @@ qint64 XYSeriesIODevice::writeData(const char * data, qint64 maxSize)
     for (int k = 0; k < maxSize/resolution; k++)
     {
         float next = ((quint8)data[k] - 128)/128.0;
-        if (on) {
+        if (on)
+        {
             next = sig->process(next);
         }
 
-        //cout << next << endl;
         float val = sigBpm->calculateBpm(next);
         points.append(QPointF(k + size, next));
 
