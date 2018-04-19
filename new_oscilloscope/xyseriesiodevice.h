@@ -32,9 +32,8 @@
 
 #include <QtCore/QIODevice>
 #include <QtCharts/QChartGlobal>
-#include "notchfilter.h"
-#include "Butterworth.h"
 #include "filter.h"
+
 
 QT_CHARTS_BEGIN_NAMESPACE
 class QXYSeries;
@@ -59,13 +58,7 @@ private:
     QXYSeries *m_series;
     Notchfilter *notch;
     bool on;
-    Butterworth *_butter;
-    vector <Biquad> _coeffs;
-    Biquad *_ptr_coef;
-    BiquadChain *Bchain;
-    filter *_filter;
-    //float _input[8000];
-    //float _output[8000];
+    signalProcessing *sig;
 
 };
 

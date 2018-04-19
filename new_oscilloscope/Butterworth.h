@@ -26,7 +26,8 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
  */
-
+#ifndef BUTTERWORTH_H_
+#define BUTTERWORTH_H_
 
 #include "Biquad.h"
 
@@ -116,3 +117,5 @@ private:
     double * ba;
 };
 
+
+#endif

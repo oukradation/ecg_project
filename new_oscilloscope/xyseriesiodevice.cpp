@@ -34,25 +34,17 @@ XYSeriesIODevice::XYSeriesIODevice(QXYSeries * series, QObject *parent) :
     QIODevice(parent),
     m_series(series)
 {
-    notch = new Notchfilter(50, 8000, 0.99);
-    _butter = new Butterworth;
-    double gain = 1.0;
-    _butter->hiPass( 8000, 0, 100, 2, _coeffs, gain );
-//    Bchain = new BiquadChain(1);
-//    _ptr_coef = &_coeffs[0];
+    sig = new signalProcessing();
+    sig->addFilter(filter(LP, 8000, 100, 0, 4));
+    sig->addFilter(filter(NF, 8000, 50, 0.99, 2));
+    sig->addFilter(filter(HP, 8000, 0, 20, 4));
+    sig->addFilter(filter(NF, 8000, 75, 0.99, 2));
 
-    _filter = new filter(1);
-    _filter->addFilter(_coeffs);
-    for ( auto&& k: _filter->_biquads )
-    {
-        std::cout<< k.b0 <<' '<< k.b1 <<' '<<k.b2 <<std::endl;
-        std::cout<< k.a1 <<' '<< k.a2 <<' '<<std::endl;
-        std::cout<<' '<<std::endl;
-    }
 
     on = false;
 }
 
+#include <iostream>
 void XYSeriesIODevice::notchOn()
 {
     on = !on;
@@ -80,20 +72,13 @@ qint64 XYSeriesIODevice::writeData(const char * data, qint64 maxSize)
             points.append(QPointF(i - maxSize/resolution, oldPoints.at(i).y()));
     }
 
-    // process data
-//    for ( int i = 0; i < range; i++ )
-//        _input[i] = ((quint8)data[i] - 128)/128.0;
-//    Bchain->processBiquad( _input, _output, 1, 8000, _ptr_coef);
-
     qint64 size = points.count();
     for (int k = 0; k < maxSize/resolution; k++)
     {
         float next = ((quint8)data[k] - 128)/128.0;
         if (on) {
-            next = _filter->process(next);
-            std::cout<<next<<std::endl;
+            next = sig->process(next);
         }
-        //next = notch->filter(next);
         points.append(QPointF(k + size, next));
     }
 

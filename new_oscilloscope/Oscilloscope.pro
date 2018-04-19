@@ -29,7 +29,6 @@ SOURCES += \
     Biquad.cpp \
     Butterworth.cpp \
     filter.cpp \
-    notchfilter.cpp \
     xyseriesiodevice.cpp
 
 HEADERS += \
@@ -37,5 +36,4 @@ HEADERS += \
     Biquad.h \
     Butterworth.h \
     filter.h \
-    notchfilter.h \
     xyseriesiodevice.h

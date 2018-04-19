@@ -26,13 +26,6 @@ Widget::Widget(QWidget *parent)
     horizontalGroupBox = new QGroupBox;
     QHBoxLayout *layout = new QHBoxLayout;
 
-    for (int i = 0; i < NumButtons; ++i) {
-        buttons[i] = new QPushButton(tr("Filter %1").arg(i + 1));
-        connect(buttons[i], SIGNAL (released()), this, SLOT (handleButton()));
-        layout->addWidget(buttons[i]);
-    }
-    horizontalGroupBox->setLayout(layout);
-
 
     m_chart = new QChart;
     QChartView *chartView = new QChartView(m_chart);
@@ -40,11 +33,11 @@ Widget::Widget(QWidget *parent)
     m_series = new QLineSeries;
     m_chart->addSeries(m_series);
     QValueAxis *axisX = new QValueAxis;
-    axisX->setRange(0, 10);
+    axisX->setRange(0, 8000);
     axisX->setLabelFormat("%g");
     axisX->setTitleText("Seconds");
     QValueAxis *axisY = new QValueAxis;
-    axisY->setRange(-2, 2);
+    axisY->setRange(-1, 1);
     axisY->setTitleText("mV");
     m_chart->setAxisX(axisX, m_series);
     m_chart->setAxisY(axisY, m_series);
@@ -73,6 +66,13 @@ Widget::Widget(QWidget *parent)
 
     m_device = new XYSeriesIODevice(m_series, this);
     m_device->open(QIODevice::WriteOnly);
+
+    for (int i = 0; i < NumButtons; ++i) {
+        buttons[i] = new QPushButton(tr("Filter %1").arg(i + 1));
+        connect(buttons[i], SIGNAL (clicked(bool)), m_device, SLOT (notchOn()));
+        layout->addWidget(buttons[i]);
+    }
+    horizontalGroupBox->setLayout(layout);
 
     m_audioInput->start(m_device);
 }
