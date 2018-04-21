@@ -10,10 +10,10 @@ Widget::Widget(QWidget *parent)
       m_series(0),
       m_audioInput(0)
 {
-    // graph section
+    // signal section
     m_chart = new QChart;
     QChartView *chartView = new QChartView(m_chart);
-    chartView->setMinimumSize(850, 500);
+    chartView->setMinimumSize(850, 250);
     m_series = new QLineSeries;
     m_chart->addSeries(m_series);
     QValueAxis *axisX = new QValueAxis;
@@ -33,10 +33,27 @@ Widget::Widget(QWidget *parent)
     connect(m_inputVolume, SIGNAL(valueChanged(int)),
             this, SLOT(changeVolume(int)));
 
+    // spectrogram section
+    m_freq_chart = new QChart;
+    QChartView *freqView = new QChartView(m_freq_chart);
+    freqView->setMinimumSize(850,250);
+    m_freq_series = new QLineSeries;
+    m_freq_chart->addSeries(m_freq_series);
+    QValueAxis *freq_axisX = new QValueAxis;
+    freq_axisX->setRange(0, 100);
+    freq_axisX->setLabelFormat("%g");
+    freq_axisX->setTitleText("Hz");
+    QValueAxis *freq_axisY = new QValueAxis;
+    freq_axisY->setRange(-1,1);
+    freq_axisY->setTitleText("dB");
+    m_freq_chart->setAxisX(freq_axisX, m_freq_series);
+    m_freq_chart->setAxisY(freq_axisY, m_freq_series);
+    m_freq_chart->legend()->hide();
+    m_freq_chart->setTitle("Frequency Spectrum");
 
-    QHBoxLayout *graphLayout = new QHBoxLayout();
+    QVBoxLayout *graphLayout = new QVBoxLayout();
     graphLayout->addWidget(chartView);
-    graphLayout->addWidget(m_inputVolume);
+    graphLayout->addWidget(freqView);
 
 
     // filter section
@@ -90,12 +107,12 @@ Widget::Widget(QWidget *parent)
     // init audio device
     QAudioDeviceInfo inputDevices = QAudioDeviceInfo::defaultInputDevice();
     m_audioInput = new QAudioInput(inputDevices,formatAudio, this);
-    m_device = new XYSeriesIODevice(m_series, this);
+    m_device = new XYSeriesIODevice(m_series, m_freq_series, this);
     m_device->open(QIODevice::WriteOnly);
     m_audioInput->start(m_device);
 
-    connect(m_filter_list, SIGNAL(currentRowChanged(int)),
-            m_device->sig, SLOT(changeAttr(int)));
+//    connect(m_filter_list, SIGNAL(currentRowChanged(int)),
+//            m_device->sig, SLOT(changeAttr(int)));
 }
 
 void Widget::addFilter()

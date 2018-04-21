@@ -54,7 +54,6 @@ private slots:
    void addFilter();
    void delFilter();
    void changeVolume(int value);
-//   void valueChanged(int);
 
 private:
 
@@ -69,6 +68,8 @@ private:
    XYSeriesIODevice *m_device;
    QChart *m_chart;
    QLineSeries *m_series;
+   QChart *m_freq_chart;
+   QLineSeries *m_freq_series;
    QAudioInput *m_audioInput;
 
 };

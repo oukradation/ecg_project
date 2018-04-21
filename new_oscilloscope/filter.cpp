@@ -66,7 +66,7 @@ bool filter::_makeFilter(double f1, double f2)
     {
         Notchfilter notch;
         // for notchfilter implementation f2 is dampning factor around target frequency
-        notch.coefficients(_fs, f1, f2, _biquads);
+        notch.coefficients(_fs, f1, 0.99, _biquads);
         // notchfilter is always successful
     }
     else
