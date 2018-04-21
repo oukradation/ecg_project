@@ -9,7 +9,10 @@
 #include <iterator>
 #include <numeric>
 #include <QObject>
-
+/*
+* Author : Oda Nedrejord
+*
+*/
 
 class bpm
     :public QObject
@@ -19,9 +22,9 @@ class bpm
         bpm();
         ~bpm();
         std::vector<float>& fftData() { return _fft_mag; };
-        float calculateBpm(float);
+        float calculateFFT(float);
         size_t max_index() { return _max_index; };
-        float bpms() { return float(_max_index)/FFT_SIZE*8000; };
+        float calculateBpm() { return float(_max_index)/FFT_SIZE*8000; };
 
     public slots:
     private:

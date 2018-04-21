@@ -23,7 +23,7 @@ bpm::~bpm()
 
 }
 
-float bpm::calculateBpm(float signal)
+float bpm::calculateFFT(float signal)
 {
     _buffer[_buffer_idx] = signal;
 

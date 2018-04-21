@@ -73,7 +73,7 @@ qint64 XYSeriesIODevice::writeData(const char * data, qint64 maxSize)
     {
         float next = ((quint8)data[k] - 128)/128.0;
         next = sig->process(next);
-        sigBpm->calculateBpm(next);
+        sigBpm->calculateFFT(next);
 
         points.append(QPointF(k + size, next));
 
@@ -89,7 +89,7 @@ qint64 XYSeriesIODevice::writeData(const char * data, qint64 maxSize)
        points.append(QPointF(k,tmp[k]));
     }
 
-    std::cout << sigBpm->bpms() << std::endl;
+    std::cout << sigBpm->calculateBpm() << std::endl;
     */
     _m_series->replace(points);
     return maxSize;
