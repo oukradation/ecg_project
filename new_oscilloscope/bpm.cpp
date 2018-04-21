@@ -11,10 +11,10 @@
 using namespace std;
 
 bpm::bpm() :
-    _buffer(8192),
+    _buffer(FFT_SIZE),
     _buffer_idx(0),
-    _fft(8192),
-    _fft_mag(8192/2)
+    _fft(FFT_SIZE),
+    _fft_mag(FFT_SIZE/2)
 {
     //_transformer.setWindowFunction("Hamming");
 }
@@ -28,16 +28,15 @@ float bpm::calculateBpm(float signal)
     _buffer[_buffer_idx] = signal;
 
     //closest value to 8000 which is power of 2
-    const int SIZE = 8192;
     //checks if buffer has reached buffer window
     if ( _buffer_idx % 10 == 0 )
     {
-        if(_transformer.setSize(SIZE) == QFourierTransformer::VariableSize)
+        if(_transformer.setSize(FFT_SIZE) == QFourierTransformer::VariableSize)
         {
             cout << "This size is not a default fixed size of QRealFourier. Using a variable size instead.\n" << endl;
         }
 
-        else if(_transformer.setSize(SIZE) == QFourierTransformer::InvalidSize)
+        else if(_transformer.setSize(FFT_SIZE) == QFourierTransformer::InvalidSize)
         {
             cout << "Invalid FFT size.\n" << endl;
             return -1;
@@ -55,9 +54,11 @@ float bpm::calculateBpm(float signal)
             idx++;
         }
 
+        _max_index = std::distance(_fft_mag.begin(), std::max_element(_fft_mag.begin(), _fft_mag.end()) );
+
     }
 
-    _buffer_idx = (_buffer_idx + 1) % SIZE;
+    _buffer_idx = (_buffer_idx + 1) % FFT_SIZE;
     return signal;
 }
 

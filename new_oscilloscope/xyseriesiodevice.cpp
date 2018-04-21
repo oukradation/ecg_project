@@ -80,13 +80,17 @@ qint64 XYSeriesIODevice::writeData(const char * data, qint64 maxSize)
     }
 
     /* Uncomment to show FFT */
-    //points.clear();
-    //float *tmp = sigBpm->fftData();
-    //for (int k = 0; k < 8192/2; k++)
-    //{
-     //  points.append(QPointF(k,tmp[k]));
-    //}
+   /* points.clear();
+    std::vector<float> &tmp = sigBpm->fftData();
+    float max = 0.0;
 
+    for (int k = 0; k < tmp.size(); k++)
+    {
+       points.append(QPointF(k,tmp[k]));
+    }
+
+    std::cout << sigBpm->bpms() << std::endl;
+    */
     _m_series->replace(points);
     return maxSize;
 }
