@@ -33,7 +33,13 @@ SOURCES += \
     filter.cpp \
     xyseriesiodevice.cpp \
     filtergui.cpp \
-    bpm.cpp
+    bpm.cpp \
+    sources/QFFT/qcomplexnumber.cpp \
+    sources/QFFT/qfouriercalculator.cpp \
+    sources/QFFT/qfourierfixedcalculator.cpp \
+    sources/QFFT/qfouriertransformer.cpp \
+    sources/QFFT/qfouriervariablecalculator.cpp \
+    sources/QFFT/qwindowfunction.cpp
 
 HEADERS += \
     widget.h \
@@ -42,6 +48,12 @@ HEADERS += \
     filter.h \
     xyseriesiodevice.h \
     filtergui.h \
-    bpm.h
+    bpm.h \
+    headers/QFFT/qcomplexnumber.h \
+    headers/QFFT/qfouriercalculator.h \
+    headers/QFFT/qfourierfixedcalculator.h \
+    headers/QFFT/qfouriertransformer.h \
+    headers/QFFT/qfouriervariablecalculator.h \
+    headers/QFFT/qwindowfunction.h
 
 FORMS +=

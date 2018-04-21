@@ -60,6 +60,7 @@ qint64 XYSeriesIODevice::writeData(const char * data, qint64 maxSize)
     QVector<QPointF> points;
     int resolution = 1;
 
+
     if (oldPoints.count() < range) {
         points = _m_series->pointsVector();
     } else {
@@ -77,6 +78,14 @@ qint64 XYSeriesIODevice::writeData(const char * data, qint64 maxSize)
         points.append(QPointF(k + size, next));
 
     }
+
+    /* Uncomment to show FFT */
+    //points.clear();
+    //float *tmp = sigBpm->fftData();
+    //for (int k = 0; k < 8192/2; k++)
+    //{
+     //  points.append(QPointF(k,tmp[k]));
+    //}
 
     _m_series->replace(points);
     return maxSize;
