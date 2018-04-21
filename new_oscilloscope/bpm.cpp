@@ -14,7 +14,8 @@ bpm::bpm() :
     _buffer(FFT_SIZE),
     _buffer_idx(0),
     _fft(FFT_SIZE),
-    _fft_mag(FFT_SIZE/2)
+    _fft_mag(FFT_SIZE/2),
+    _transformer(FFT_SIZE)
 {
     //_transformer.setWindowFunction("Hamming");
 }
@@ -29,7 +30,7 @@ float bpm::calculateFFT(float signal)
 
     //closest value to 8000 which is power of 2
     //checks if buffer has reached buffer window
-    if ( _buffer_idx % 10 == 0 )
+    if ( _buffer_idx % 1000 == 0 )
     {
         if(_transformer.setSize(FFT_SIZE) == QFourierTransformer::VariableSize)
         {
