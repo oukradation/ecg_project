@@ -28,15 +28,24 @@ public:
               int f1 = 0, int f2 = 0, int order = 0);
     ~filterGui(){};
 
+    filterType getType(){
+        return _type;
+    }
+    bool getButtonState(){
+        return !_onOff->isChecked();
+    }
+
+
     static const char* filter_names[5];
+
+    QSlider *_filterSlider_lower;
+    QSlider *_filterSlider_upper;
 
 private:
     filterType _type;
     int _order;
 
     QString filt_info;
-    QSlider *_filterSlider_lower;
-    QSlider *_filterSlider_upper;
     QLabel *_filterLabel;
     QLabel *_filterFrequency_lower;
     QLabel *_filterFrequency_upper;

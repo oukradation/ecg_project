@@ -51,6 +51,7 @@ public:
                               QXYSeries * freq_series,
                               QObject *parent = 0);
     signalProcessing *sig;
+    bpm *sigBpm;
 
 protected:
     qint64 readData(char * data, qint64 maxSize);
@@ -59,7 +60,6 @@ protected:
 private:
     QXYSeries *m_series;
     QXYSeries *m_freq_series;
-    bpm *sigBpm;
 
 };
 

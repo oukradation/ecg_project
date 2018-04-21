@@ -54,7 +54,6 @@ qint64 XYSeriesIODevice::writeData(const char * data, qint64 maxSize)
 {
     qint64 range = 8000;
     QVector<QPointF> oldPoints = m_series->pointsVector();
-    QVector<QPointF> freq_oldPoints = m_freq_series->pointsVector();
     QVector<QPointF> points;
     QVector<QPointF> freq_points;
     int resolution = 1;

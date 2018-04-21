@@ -34,7 +34,7 @@ float filter::process(float xn)
 	for ( int i = 0; i < (int)_biquads.size(); i++ )
 	{
 		yn = _v1[i] + _biquads[i].b0*xn;
-        v1 = _v2[i] +_biquads[i].a1*yn + _biquads[i].b1*xn;
+        v1 = _v2[i] + _biquads[i].a1*yn + _biquads[i].b1*xn;
         v2 = _biquads[i].b2*xn + _biquads[i].a2*yn;
 
 		_v1[i] = v1;
@@ -104,10 +104,11 @@ float signalProcessing::process(float x)
        x = filter.process(x);
     return x;
 }
-#include<iostream>
-bool signalProcessing::changeAttr(int filt_num)
+
+bool signalProcessing::changeAttr(int filt_num, int f1, int f2, bool onoff)
 {
-    std::cout<< "should change attr" << std::endl;
+    _filters[filt_num].adjustFilter((double)f1, (double)f2);
+    _filters[filt_num].filterOn(onoff);
 
 }
 
