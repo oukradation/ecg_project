@@ -41,7 +41,8 @@ SOURCES += \
     sources/QFFT/qwindowfunction.cpp \
     file_handler.cpp \
     sources/Audio/AudioFile.cpp \
-    frequency_plotter.cpp
+    frequency_plotter.cpp \
+    bpm.cpp
 
 HEADERS += \
     widget.h \
@@ -78,6 +79,7 @@ HEADERS += \
     headers/QFFT/qfouriertransformer.h \
     headers/QFFT/qfouriervariablecalculator.h \
     headers/QFFT/qwindowfunction.h \
-    frequency_plotter.h
+    frequency_plotter.h \
+    bpm.h
 
 FORMS +=

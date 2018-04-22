@@ -34,6 +34,7 @@
 #include <QtCharts/QChartGlobal>
 #include "filter.h"
 #include "frequency_plotter.h"
+#include "bpm.h"
 #include "file_handler.h"
 #include "filtergui.h"
 
@@ -53,6 +54,7 @@ public:
                               QObject *parent = 0);
     signalProcessing *sig;
     Frequency_plotter *sigFrequency;
+    Bpm *sigBpm;
 
 protected:
     qint64 readData(char * data, qint64 maxSize);
