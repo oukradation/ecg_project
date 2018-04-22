@@ -111,7 +111,7 @@ void Widget::_init_graph()
     m_freq_series = new QLineSeries;
     m_freq_chart->addSeries(m_freq_series);
     QValueAxis *freq_axisX = new QValueAxis;
-    freq_axisX->setRange(0, 8196);
+    freq_axisX->setRange(0, 4000);
     freq_axisX->setLabelFormat("%g");
     freq_axisX->setTitleText("Hz");
     QValueAxis *freq_axisY = new QValueAxis;
