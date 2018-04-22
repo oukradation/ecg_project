@@ -34,10 +34,10 @@ class Frequency_plotter
     public slots:
     private:
         std::vector<float> _buffer;
-        size_t _buffer_idx;
+        std::size_t _buffer_idx;
         std::vector<float> _fft;
         std::vector<float> _fft_mag;
-        size_t _max_index;
+        std::size_t _max_index;
         QFourierTransformer _transformer;
 
 
