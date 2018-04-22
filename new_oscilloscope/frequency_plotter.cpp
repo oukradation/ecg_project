@@ -1,4 +1,4 @@
-#include "bpm.h"
+#include "frequency_plotter.h"
 #include "xyseriesiodevice.h"
 #include <iostream>
 #include <vector>
@@ -10,27 +10,26 @@
 
 using namespace std;
 
-bpm::bpm() :
+Frequency_plotter::Frequency_plotter() :
     _buffer(FFT_SIZE),
     _buffer_idx(0),
     _fft(FFT_SIZE),
     _fft_mag(FFT_SIZE/2),
     _transformer(FFT_SIZE)
 {
-    //_transformer.setWindowFunction("Hamming");
+    _transformer.setWindowFunction("Hamming");
 }
-bpm::~bpm()
+Frequency_plotter::~Frequency_plotter()
 {
 
 }
 
-float bpm::calculateFFT(float signal)
+void Frequency_plotter::calculateFFT(float signal)
 {
     _buffer[_buffer_idx] = signal;
 
-    //closest value to 8000 which is power of 2
-    //checks if buffer has reached buffer window
-    if ( _buffer_idx % 1000 == 0 )
+    //update plot every 200 sample
+    if ( _buffer_idx % 200 == 0 )
     {
         if(_transformer.setSize(FFT_SIZE) == QFourierTransformer::VariableSize)
         {
@@ -40,27 +39,28 @@ float bpm::calculateFFT(float signal)
         else if(_transformer.setSize(FFT_SIZE) == QFourierTransformer::InvalidSize)
         {
             cout << "Invalid FFT size.\n" << endl;
-            return -1;
         }
 
+        //calculating FFT on signal buffer
         _transformer.forwardTransform(_buffer.data(), _fft.data());
+        //calculating each value from fft signal buffer to complex values
         const QVector<QComplexFloat> &complex = _transformer.toComplex(_fft.data());
 
+        //calculating absolute value from each value in complex value buffer
+        //then scaling to logaritmic scale
         size_t idx = 0;
         for ( const QComplexFloat& c : complex )
         {
-            const float a = c.real();
-            const float b = c.imaginary();
-            _fft_mag[idx] = 0.4*std::log10(0.01*std::sqrt( a*a + b*b ))+0.4;
+            const float realPart = c.real();
+            const float imaginaryPart = c.imaginary();
+            _fft_mag[idx] = 20.0*std::log10(std::sqrt( realPart*realPart + imaginaryPart*imaginaryPart ));
             idx++;
         }
 
         _max_index = std::distance(_fft_mag.begin(), std::max_element(_fft_mag.begin(), _fft_mag.end()) );
-
     }
 
     _buffer_idx = (_buffer_idx + 1) % FFT_SIZE;
-    return signal;
 }
 
 

@@ -6,6 +6,7 @@
 #include <string.h>
 #include <QObject>
 #include "headers/Audio/AudioFile.h"
+#include "filtergui.h"
 /*
 *
 *This file contains a file handler which implements audiofile class to create .wav files.

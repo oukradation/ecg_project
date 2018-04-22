@@ -11,9 +11,9 @@ File_handler::File_handler()
 {
     _file_counter = 0;
     _counter = 0;
-    _buffer_size = 8000*5;
+    _buffer_size = SAMPLE_FREQ*5;
     _audioFile.setAudioBufferSize(1, _buffer_size);
-    _audioFile.setSampleRate(8000);
+    _audioFile.setSampleRate(SAMPLE_FREQ);
     _audioFile.setBitDepth(24);
 }
 

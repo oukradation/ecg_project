@@ -26,6 +26,7 @@
 #include "xyseriesiodevice.h"
 #include "filtergui.h"
 
+
 QT_CHARTS_BEGIN_NAMESPACE
 class QLineSeries;
 class QChart;

@@ -1,8 +1,6 @@
 #include "widget.h"
 QT_CHARTS_USE_NAMESPACE
 
-#define SAMPLE_FREQ 8000
-
 Widget::Widget(QWidget *parent)
     : QWidget(parent),
       m_device(0),
@@ -111,11 +109,11 @@ void Widget::_init_graph()
     m_freq_series = new QLineSeries;
     m_freq_chart->addSeries(m_freq_series);
     QValueAxis *freq_axisX = new QValueAxis;
-    freq_axisX->setRange(0, 4000);
+    freq_axisX->setRange(0, SAMPLE_FREQ/2);
     freq_axisX->setLabelFormat("%g");
     freq_axisX->setTitleText("Hz");
     QValueAxis *freq_axisY = new QValueAxis;
-    freq_axisY->setRange(-2,1);
+    freq_axisY->setRange(-70,40);
     m_freq_chart->setAxisX(freq_axisX, m_freq_series);
     m_freq_chart->setAxisY(freq_axisY, m_freq_series);
     m_freq_chart->legend()->hide();

@@ -33,8 +33,9 @@
 #include <QtCore/QIODevice>
 #include <QtCharts/QChartGlobal>
 #include "filter.h"
-#include "bpm.h"
+#include "frequency_plotter.h"
 #include "file_handler.h"
+#include "filtergui.h"
 
 QT_CHARTS_BEGIN_NAMESPACE
 class QXYSeries;
@@ -51,7 +52,7 @@ public:
                               QXYSeries * freq_series,
                               QObject *parent = 0);
     signalProcessing *sig;
-    bpm *sigBpm;
+    Frequency_plotter *sigFrequency;
 
 protected:
     qint64 readData(char * data, qint64 maxSize);

@@ -14,10 +14,11 @@
 /*
  * Graphic interface for a filter instance
  *
- * Author : Wonho Lee, Oda Nedrejord
+ * Author : Wonho Lee, Oda Olsen Nedrejord
  *
  */
 
+#define SAMPLE_FREQ (8000)
 
 class filterGui
         : public QWidget

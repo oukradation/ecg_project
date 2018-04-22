@@ -33,7 +33,6 @@ SOURCES += \
     filter.cpp \
     xyseriesiodevice.cpp \
     filtergui.cpp \
-    bpm.cpp \
     sources/QFFT/qcomplexnumber.cpp \
     sources/QFFT/qfouriercalculator.cpp \
     sources/QFFT/qfourierfixedcalculator.cpp \
@@ -41,7 +40,8 @@ SOURCES += \
     sources/QFFT/qfouriervariablecalculator.cpp \
     sources/QFFT/qwindowfunction.cpp \
     file_handler.cpp \
-    sources/Audio/AudioFile.cpp
+    sources/Audio/AudioFile.cpp \
+    frequency_plotter.cpp
 
 HEADERS += \
     widget.h \
@@ -50,7 +50,6 @@ HEADERS += \
     filter.h \
     xyseriesiodevice.h \
     filtergui.h \
-    bpm.h \
     file_handler.h \
     headers/Audio/AudioFile.h \
     headers/QFFT/Array.h \
@@ -78,6 +77,7 @@ HEADERS += \
     headers/QFFT/qfourierfixedcalculator.h \
     headers/QFFT/qfouriertransformer.h \
     headers/QFFT/qfouriervariablecalculator.h \
-    headers/QFFT/qwindowfunction.h
+    headers/QFFT/qwindowfunction.h \
+    frequency_plotter.h
 
 FORMS +=
