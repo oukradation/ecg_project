@@ -42,25 +42,26 @@ QT_CHARTS_END_NAMESPACE
 
 QT_CHARTS_USE_NAMESPACE
 
+
 class XYSeriesIODevice : public QIODevice
 {
     Q_OBJECT
 public:
-    explicit XYSeriesIODevice(QXYSeries * series, QObject *parent = 0);
+    explicit XYSeriesIODevice(QXYSeries * series,
+                              QXYSeries * freq_series,
+                              QObject *parent = 0);
     signalProcessing *sig;
-
-public slots:
-    void notchOn();
+    bpm *sigBpm;
 
 protected:
     qint64 readData(char * data, qint64 maxSize);
     qint64 writeData(const char * data, qint64 maxSize);
 
 private:
-    QXYSeries *_m_series;
     bool on;
-    bpm sigBpm;
     File_handler sigFile;
+    QXYSeries *m_series;
+    QXYSeries *m_freq_series;
 
 };
 

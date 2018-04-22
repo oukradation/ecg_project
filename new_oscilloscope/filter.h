@@ -66,12 +66,10 @@ class filter
  * Signal processing class
  *
  * this class is container for filter objects and process signal in serial
- * inherited QObject in order to receive signal from gui
  *
  */
 
 class signalProcessing
-        :public QObject
 {
     public:
         signalProcessing(){};
@@ -86,9 +84,7 @@ class signalProcessing
         }
         
         float process(float x);
-    
-    public slots:
-        bool changeAttr(int filt_num);
+        bool changeAttr(int filt_num, int f1, int f2, bool onoff);
     
     
     private:

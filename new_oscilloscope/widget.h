@@ -53,12 +53,14 @@ public:
 private slots:
    void addFilter();
    void delFilter();
-   void changeVolume(int value);
-//   void valueChanged(int);
+   void changeFilter(QListWidgetItem*);
 
 private:
+   void _init_graph();
+   void _init_filtersection();
+   void _init_audio();
 
-   QSlider *m_inputVolume;
+   QGroupBox *newFilterBox;
    QPushButton *m_newFilter;
    QPushButton *m_delFilter;
    QComboBox *m_whichFilter;
@@ -67,8 +69,13 @@ private:
    QSpinBox *m_f2;
    QListWidget *m_filter_list;
    XYSeriesIODevice *m_device;
+
+   QChartView *m_chartView;
    QChart *m_chart;
    QLineSeries *m_series;
+   QChartView *m_freq_chartView;
+   QChart *m_freq_chart;
+   QLineSeries *m_freq_series;
    QAudioInput *m_audioInput;
 
 };

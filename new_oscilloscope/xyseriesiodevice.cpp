@@ -33,17 +33,15 @@
 
 using namespace std;
 
-XYSeriesIODevice::XYSeriesIODevice(QXYSeries * series, QObject *parent) :
+XYSeriesIODevice::XYSeriesIODevice(QXYSeries * series, QXYSeries * freq_series, QObject *parent) :
     QIODevice(parent),
-    _m_series(series)
+    m_series(series),
+    m_freq_series(freq_series)
 {
     sig = new signalProcessing();
-    on = false;
+    sigBpm = new bpm();
 }
 
-void XYSeriesIODevice::notchOn()
-{
-}
 
 qint64 XYSeriesIODevice::readData(char * data, qint64 maxSize)
 {
@@ -55,13 +53,14 @@ qint64 XYSeriesIODevice::readData(char * data, qint64 maxSize)
 qint64 XYSeriesIODevice::writeData(const char * data, qint64 maxSize)
 {
     qint64 range = 8000;
-    QVector<QPointF> oldPoints = _m_series->pointsVector();
+    QVector<QPointF> oldPoints = m_series->pointsVector();
     QVector<QPointF> points;
+    QVector<QPointF> freq_points;
     int resolution = 1;
 
 
     if (oldPoints.count() < range) {
-        points = _m_series->pointsVector();
+        points = m_series->pointsVector();
     } else {
         for (int i = maxSize/resolution; i < oldPoints.count(); i++)
             points.append(QPointF(i - maxSize/resolution, oldPoints.at(i).y()));
@@ -73,7 +72,7 @@ qint64 XYSeriesIODevice::writeData(const char * data, qint64 maxSize)
     {
         float next = ((quint8)data[k] - 128)/128.0;
         next = sig->process(next);
-        sigBpm.calculateFFT(next);
+        sigBpm->calculateFFT(next);
 
         points.append(QPointF(k + size, next));
         //adding each sample from signal to write to file
@@ -82,20 +81,19 @@ qint64 XYSeriesIODevice::writeData(const char * data, qint64 maxSize)
           sigFile.addSample(next);
         */
     }
+    m_series->replace(points);
 
 
     /* Uncomment to show FFT */
-   /* points.clear();
+    freq_points.clear();
     std::vector<float> &tmp = sigBpm->fftData();
-    float max = 0.0;
 
     for (int k = 0; k < tmp.size(); k++)
     {
-       points.append(QPointF(k,tmp[k]));
+       freq_points.append(QPointF(float(k)/tmp.size()*4000,tmp[k]));
     }
 
-    std::cout << sigBpm->calculateBpm() << std::endl;
-    */
-    _m_series->replace(points);
+    //std::cout << sigBpm->calculateBpm() << std::endl;
+    m_freq_series->replace(freq_points);
     return maxSize;
 }
