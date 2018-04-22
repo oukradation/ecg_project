@@ -37,7 +37,6 @@ XYSeriesIODevice::XYSeriesIODevice(QXYSeries * series, QObject *parent) :
     QIODevice(parent),
     _m_series(series)
 {
-    sigBpm = new bpm();
     sig = new signalProcessing();
     on = false;
 }
@@ -68,16 +67,22 @@ qint64 XYSeriesIODevice::writeData(const char * data, qint64 maxSize)
             points.append(QPointF(i - maxSize/resolution, oldPoints.at(i).y()));
     }
 
+
     qint64 size = points.count();
     for (int k = 0; k < maxSize/resolution; k++)
     {
         float next = ((quint8)data[k] - 128)/128.0;
         next = sig->process(next);
-        sigBpm->calculateFFT(next);
+        sigBpm.calculateFFT(next);
 
         points.append(QPointF(k + size, next));
-
+        //adding each sample from signal to write to file
+        /*Uncomment to write signal to file*/
+        /*
+          sigFile.addSample(next);
+        */
     }
+
 
     /* Uncomment to show FFT */
    /* points.clear();

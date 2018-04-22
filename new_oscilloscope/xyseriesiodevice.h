@@ -34,7 +34,7 @@
 #include <QtCharts/QChartGlobal>
 #include "filter.h"
 #include "bpm.h"
-
+#include "file_handler.h"
 
 QT_CHARTS_BEGIN_NAMESPACE
 class QXYSeries;
@@ -59,7 +59,8 @@ protected:
 private:
     QXYSeries *_m_series;
     bool on;
-    bpm *sigBpm;
+    bpm sigBpm;
+    File_handler sigFile;
 
 };
 

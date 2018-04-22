@@ -39,7 +39,9 @@ SOURCES += \
     sources/QFFT/qfourierfixedcalculator.cpp \
     sources/QFFT/qfouriertransformer.cpp \
     sources/QFFT/qfouriervariablecalculator.cpp \
-    sources/QFFT/qwindowfunction.cpp
+    sources/QFFT/qwindowfunction.cpp \
+    file_handler.cpp \
+    sources/Audio/AudioFile.cpp
 
 HEADERS += \
     widget.h \
@@ -49,6 +51,28 @@ HEADERS += \
     xyseriesiodevice.h \
     filtergui.h \
     bpm.h \
+    file_handler.h \
+    headers/Audio/AudioFile.h \
+    headers/QFFT/Array.h \
+    headers/QFFT/Array.hpp \
+    headers/QFFT/def.h \
+    headers/QFFT/DynArray.h \
+    headers/QFFT/DynArray.hpp \
+    headers/QFFT/FFTReal.h \
+    headers/QFFT/FFTReal.hpp \
+    headers/QFFT/FFTRealFixLen.h \
+    headers/QFFT/FFTRealFixLen.hpp \
+    headers/QFFT/FFTRealFixLenParam.h \
+    headers/QFFT/FFTRealPassDirect.h \
+    headers/QFFT/FFTRealPassDirect.hpp \
+    headers/QFFT/FFTRealPassInverse.h \
+    headers/QFFT/FFTRealPassInverse.hpp \
+    headers/QFFT/FFTRealSelect.h \
+    headers/QFFT/FFTRealSelect.hpp \
+    headers/QFFT/FFTRealUseTrigo.h \
+    headers/QFFT/FFTRealUseTrigo.hpp \
+    headers/QFFT/OscSinCos.h \
+    headers/QFFT/OscSinCos.hpp \
     headers/QFFT/qcomplexnumber.h \
     headers/QFFT/qfouriercalculator.h \
     headers/QFFT/qfourierfixedcalculator.h \
