@@ -47,7 +47,7 @@ void Frequency_plotter::calculateFFT(float signal)
         const QVector<QComplexFloat> &complex = _transformer.toComplex(_fft.data());
 
         //calculating absolute value from each value in complex value buffer
-        //then scaling to logaritmic scale
+        //then scaling to dB
         size_t idx = 0;
         for ( const QComplexFloat& c : complex )
         {
