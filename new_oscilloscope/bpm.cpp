@@ -25,7 +25,6 @@ void Bpm::calculateBpm(float signal) {
      if ( (_bpmBuffer_idx % SAMPLE_FREQ/4) == 0)
      {
         _current_max_val = *std::max_element(_bpmBuffer.begin(), _bpmBuffer.end());
-        std::cout << _current_max_val << std::endl;
 
         if( _current_max_val < _prev_max_val && _nextPeak == true && _prev_max_val > 0.4 ) {
             _bpm_idx++;
