@@ -38,21 +38,28 @@ Widget::Widget(QWidget *parent)
 
 void Widget::addFilter()
 {
+    int f1, f2 = 0;
+    filterType type = (filterType)m_whichFilter->currentIndex();
+    f1 = m_f1->value();
+    f2 = m_f2->value();
+
+    if ( f1 == f2 && ( type == BS || type == BP )) return;
+
     // add gui on the list
     QListWidgetItem *item = new QListWidgetItem(m_filter_list);
     m_filter_list->addItem(item);
-    filterGui *filt  = new filterGui(this, (filterType)m_whichFilter->currentIndex(),
-                                     m_f1->value(),
-                                     m_f2->value(),
+    filterGui *filt  = new filterGui(this, type,
+                                     f1,
+                                     f2,
                                      m_order->value());
     item->setSizeHint(filt->sizeHint());
     m_filter_list->setItemWidget(item, filt);
 
     // add filter in signal processing
-    m_device->sig->addFilter(filter((filterType)m_whichFilter->currentIndex(),
+    m_device->sig->addFilter(filter( type,
                                      SAMPLE_FREQ,
-                                     m_f1->value(),
-                                     m_f2->value(),
+                                     f1,
+                                     f2,
                                      m_order->value()));
 }
 
@@ -133,7 +140,7 @@ void Widget::_init_filtersection()
         m_whichFilter->addItem(QString(filt));
     m_order = new QSpinBox();
     m_order->setSingleStep(1);
-    m_order->setRange(1,16);
+    m_order->setRange(2,16);
     m_f1 = new QSpinBox();
     m_f1->setSingleStep(1);
     m_f1->setRange(1, SAMPLE_FREQ/2);
