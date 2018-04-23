@@ -77,7 +77,7 @@ qint64 XYSeriesIODevice::writeData(const char * data, qint64 maxSize)
         sigFrequency->calculateFFT(next);
         /*Uncomment to calculate BPM*/
         /*
-        sigBpm->calculateBpm(next);
+        sigBpm->findPeak(next);
         */
         points.append(QPointF(k + size, next));
         //adding each sample from signal to write to file
