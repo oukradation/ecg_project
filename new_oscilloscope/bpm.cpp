@@ -3,10 +3,11 @@
 
 Bpm::Bpm() :
     _bpmBuffer(500,0.0),
+    _sampleCounterBuffer(500),
     _bpmBuffer_idx(0),
     _prev_max_val(0),
     _current_max_val(0),
-    _gain(0.5),
+    _amplitude(0.5),
     _number_of_seconds(60.0),
     _state(peakState::IDLE),
     _sample_counter(0),
@@ -41,6 +42,8 @@ void Bpm::calculateBpm()
 {
     float first_time = _beats_queue.front() / float(SAMPLE_FREQ);
     float last_time = _beats_queue.back() / float(SAMPLE_FREQ);
+    //bpm by dividing current FIFO size by distance between last peak time en next peak time multiplied 60
+
     if( _beats_queue.size() > 1 )
     {
         //std::cout << "Bpm: " << _beats_queue.size() / float( last_time - first_time ) * _number_of_seconds << endl;
@@ -50,14 +53,15 @@ void Bpm::calculateBpm()
 
 /*
 * This function is working as a state machine. It stands idle if peak is lower than
-* specified gain(noise in signal).
-* If signal is getting higher than specified gain, it switches to search for peak.
+* specified amplitude(noise in signal).
+* If signal is getting higher than specified amplitude, it switches to search for peak.
 * In this state it calculates Beats Per Minute in addition to the time when each
 * new peak is found
 */
 void Bpm::findPeak(float signal) {
 
      _bpmBuffer[_bpmBuffer_idx] = signal;
+     _sampleCounterBuffer[_bpmBuffer_idx] = _sample_counter;
 
      if (_bpmBuffer_idx == 0)
      {
@@ -66,7 +70,7 @@ void Bpm::findPeak(float signal) {
          switch (_state)
          {
             case peakState::IDLE:
-                if (_current_max_val < _gain);
+                if (_current_max_val < _amplitude);
                 else
                 {
                     _state = peakState::SEARCHING_FOR_MAX;
@@ -76,11 +80,11 @@ void Bpm::findPeak(float signal) {
                 if (_current_max_val > _prev_max_val)
                 {
                 }
-                else if (_current_max_val <= _gain)
-                {
+                else if (_current_max_val <= _amplitude)
+                {   //distance is index of (max)peak value and (max)peak time
                     int distance = std::distance(_bpmBuffer.begin(), max_elem);
-                    float foundAtTime = (_sample_counter - (_bpmBuffer.size() - 1 - distance))/float(SAMPLE_FREQ);
-                    addToQueue( _sample_counter - (_bpmBuffer.size() - 1 - distance));
+                    float foundAtTime = (_sampleCounterBuffer[distance])/float(SAMPLE_FREQ);
+                    addToQueue( _sampleCounterBuffer[distance] );
                     //std::cout << "Found peak after " << foundAtTime  << " seconds" << std::endl;
                     calculateBpm();
                     _state = peakState::IDLE;
