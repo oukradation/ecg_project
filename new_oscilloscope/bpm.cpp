@@ -21,9 +21,8 @@ Bpm::~Bpm()
 
 }
 
-
 /*  The following function is adding a new time value
- *  to a FIFO queue which has maximum size of 10
+ *  to a FIFO queue which has a maximum size of 10
  *
 */
 void Bpm::addToQueue(size_t time)
@@ -34,7 +33,7 @@ void Bpm::addToQueue(size_t time)
 }
 
 /*
-* The following function calculates Beats Per Minute using number of beats in current buffer
+* The following function calculates Beats Per Minute(BPM) using number of beats in current buffer
 * divided with the time difference between first peak and last peak in current buffer which is
 * multiplied with the number of seconds in a minute
 */

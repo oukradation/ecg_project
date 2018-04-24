@@ -42,8 +42,11 @@ void File_handler::addSample(float sample)
 
     _counter = (_counter + 1) % _buffer_size;
 }
-//Function creates and writes to file located in directory: Audiofiles.
-//Creates new file every 5 seconds
+/*Function creates and writes to file located in directory: Audiofiles.
+*If directory does not exist, it makes a new directory.
+* This class creates a new file every 5 seconds when recording button
+* is pushed.
+*/
 bool File_handler::writeWavFile()
 {
     _file_counter++;
