@@ -7,10 +7,11 @@
 /*
 * Author : Oda Olsen Nedrejord
 *
-* This file contains a state machine which is used to calculate bpm. It's searching
-* for high peaks in signal buffer and calculates bpm. In addition it gives the
-* time of each peak found. Code has not been testet with a real ecg-signal yet.
-* Gain probably needs to be adjusted when testing.
+*The bpm class contains a state machine which has an active state and a passive state.
+* When state is active, it is searching for local maximum in signal buffer and calculates bpm.
+* Furthermore it gives the time of each peak found. When state is passive,
+* it does nothing else than checki if amplitude is high enough to
+* switch back to active state
 */
 
 class Bpm
@@ -26,6 +27,8 @@ class Bpm
         void calculateBpm();
         void addToQueue(std::size_t time);
         std::vector<float> _bpmBuffer;
+        std::vector<std::size_t> _sampleCounterBuffer;
+
         std::size_t _bpmBuffer_idx;
         float _prev_max_val;
         float _current_max_val;

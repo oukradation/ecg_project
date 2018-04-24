@@ -3,6 +3,7 @@
 
 Bpm::Bpm() :
     _bpmBuffer(500,0.0),
+    _sampleCounterBuffer(500),
     _bpmBuffer_idx(0),
     _prev_max_val(0),
     _current_max_val(0),
@@ -42,7 +43,7 @@ void Bpm::calculateBpm()
     float last_time = _beats_queue.back() / float(SAMPLE_FREQ);
     if( _beats_queue.size() > 1 )
     {
-        std::cout << "Bpm: " << _beats_queue.size() / float( last_time - first_time ) * _number_of_seconds << endl;
+        std::cout << "Bpm: " << int(_beats_queue.size() / float( last_time - first_time ) * _number_of_seconds) << endl;
     }
 }
 
@@ -56,6 +57,7 @@ void Bpm::calculateBpm()
 void Bpm::findPeak(float signal) {
 
      _bpmBuffer[_bpmBuffer_idx] = signal;
+     _sampleCounterBuffer[_bpmBuffer_idx] = _sample_counter;
 
      if (_bpmBuffer_idx == 0)
      {
@@ -77,9 +79,9 @@ void Bpm::findPeak(float signal) {
                 else if (_current_max_val <= _gain)
                 {
                     int distance = std::distance(_bpmBuffer.begin(), max_elem);
-                    float foundAtTime = (_sample_counter - (_bpmBuffer.size() - 1 - distance))/float(SAMPLE_FREQ);
-                    addToQueue( _sample_counter - (_bpmBuffer.size() - 1 - distance));
-                    //std::cout << "Found peak after " << foundAtTime  << " seconds" << std::endl;
+                    float foundAtTime = (_sampleCounterBuffer[distance])/float(SAMPLE_FREQ);
+                    addToQueue( _sampleCounterBuffer[distance] );
+                    std::cout << "Found peak after " << foundAtTime  << " seconds" << std::endl;
                     calculateBpm();
                     _state = peakState::IDLE;
                 }
