@@ -7,11 +7,11 @@
 /*
 * Author : Oda Olsen Nedrejord
 *
-*The bpm class contains a state machine which has an active state and a passive state.
+* The Bpm class contains a state machine which has an active state and a passive state.
 * When state is active, it is searching for local maximum in signal buffer and calculates bpm.
 * Furthermore it gives the time of each peak found. When state is passive,
-* it does nothing else than check if amplitude is high enough to
-* switch back to active state
+* it does nothing else than checking if amplitude is higher than a specified level so it can
+* switch back to active state.
 */
 
 class Bpm

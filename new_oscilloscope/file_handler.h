@@ -8,12 +8,11 @@
 #include "headers/Audio/AudioFile.h"
 #include "filtergui.h"
 /*
-*
-*This file contains a file handler which implements audiofile class to create .wav files.
-* File_handler class receives ecg signals from xyseriesiodevice class and creates 5 seconds
-* long .wav files out of the signals.
-*
 * Author : Oda Olsen Nedrejord
+*
+* This file contains a file handler which implements audiofile class to create .WAV files.
+* File_handler class receives ecg signals from xyseriesiodevice class and creates 5 seconds
+* long .WAV files out of the signals when record button is pushed.
 *
 */
 class File_handler
