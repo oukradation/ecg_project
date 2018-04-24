@@ -71,6 +71,8 @@ bool filter::_makeFilter(double f1, double f2)
     }
     else
     {
+        // odd order BS, BP not allowed
+        if ( (_type == BS || _type == BP) && _order%2 == 1 ) return false;
         Butterworth butter;
         double gain = 1.0; // default as 1.0 since gain is unpredictable
         success = butter.coefficients((Butterworth::FILTER_TYPE)(10000 + (int)_type), _fs,
@@ -107,9 +109,10 @@ float signalProcessing::process(float x)
 
 bool signalProcessing::changeAttr(int filt_num, int f1, int f2, bool onoff)
 {
-    _filters[filt_num].adjustFilter((double)f1, (double)f2);
+    bool success = _filters[filt_num].adjustFilter((double)f1, (double)f2);
     _filters[filt_num].filterOn(onoff);
 
+    return success;
 }
 
 void Notchfilter::coefficients(double fs, double f, double r, vector <Biquad>& biquad)

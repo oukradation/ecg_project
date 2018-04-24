@@ -41,7 +41,24 @@ void Widget::addFilter()
     f1 = m_f1->value();
     f2 = m_f2->value();
 
-    if ( f1 == f2 && ( type == BS || type == BP )) return;
+    // add filter in signal processing
+    filter fit;
+    try
+    {
+        fit = filter(type,
+                     SAMPLE_FREQ,
+                     f1,
+                     f2,
+                     m_order->value());
+    }
+    catch (exception& e)
+    {
+        std::cout << "error making filter" << std::endl;
+        return;
+    }
+
+    m_device->sig->addFilter(fit);
+
 
     // add gui on the list
     QListWidgetItem *item = new QListWidgetItem(m_filter_list);
@@ -53,12 +70,6 @@ void Widget::addFilter()
     item->setSizeHint(filt->sizeHint());
     m_filter_list->setItemWidget(item, filt);
 
-    // add filter in signal processing
-    m_device->sig->addFilter(filter( type,
-                                     SAMPLE_FREQ,
-                                     f1,
-                                     f2,
-                                     m_order->value()));
 }
 
 void Widget::delFilter()
@@ -193,5 +204,4 @@ void Widget::_init_audio()
     m_device = new XYSeriesIODevice(m_series, m_freq_series, this);
     m_device->open(QIODevice::WriteOnly);
     m_audioInput->start(m_device);
-
 }
