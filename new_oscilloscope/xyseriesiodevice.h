@@ -27,6 +27,14 @@
 **
 ****************************************************************************/
 
+/*
+ * This file is adjusted to fit our usage
+ *
+ * This class handles data buffer from Audiodevice and updates charts
+ * here we access the buffer and process signal as it updates graphs.
+ *
+ */
+
 #ifndef XYSERIESIODEVICE_H
 #define XYSERIESIODEVICE_H
 

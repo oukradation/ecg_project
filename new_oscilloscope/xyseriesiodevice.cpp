@@ -38,6 +38,7 @@ XYSeriesIODevice::XYSeriesIODevice(QXYSeries * series, QXYSeries * freq_series, 
     m_series(series),
     m_freq_series(freq_series)
 {
+    // instanciates processing objects
     sig = new signalProcessing();
     sigFrequency = new Frequency_plotter();
     sigBpm = new Bpm();
@@ -52,6 +53,7 @@ qint64 XYSeriesIODevice::readData(char * data, qint64 maxSize)
     return -1;
 }
 
+// this function is called periodicaly and updates buffer and processes them eventually
 qint64 XYSeriesIODevice::writeData(const char * data, qint64 maxSize)
 {
     qint64 range = SAMPLE_FREQ;
@@ -60,7 +62,7 @@ qint64 XYSeriesIODevice::writeData(const char * data, qint64 maxSize)
     QVector<QPointF> freq_points;
     int resolution = 1;
 
-
+    // Update signal chart with previous buffer - for fifo presentation on graph chart
     if (oldPoints.count() < range) {
         points = m_series->pointsVector();
     } else {
@@ -68,20 +70,26 @@ qint64 XYSeriesIODevice::writeData(const char * data, qint64 maxSize)
             points.append(QPointF(i - maxSize/resolution, oldPoints.at(i).y()));
     }
 
+    // pick up new values from buffer and update signal graph
     qint64 size = points.count();
     for (int k = 0; k < maxSize/resolution; k++)
     {
+        // process signal
         float next = ((quint8)data[k] - 128)/128.0;
         next = sig->process(next);
+        // fills out FFT buffer
         sigFrequency->calculateFFT(next);
+        // into buffer for BPM
         sigBpm->findPeak(next);
+
         points.append(QPointF(k + size, next));
 
-        //adding each sample from signal to write to file
+        // record to file
         if ( _recording ) sigFile.addSample(next);
     }
     m_series->replace(points);
 
+    // calculate new fft spectrum and updates
     freq_points.clear();
     std::vector<float> &tmp = sigFrequency->fftData();
     for (size_t k = 0; k < tmp.size(); k++)
@@ -90,11 +98,13 @@ qint64 XYSeriesIODevice::writeData(const char * data, qint64 maxSize)
     }
     m_freq_series->replace(freq_points);
 
+    // update bpm on display by emitting signal here
     emit newBpm((int)sigBpm->getBpm());
 
     return maxSize;
 }
 
+// start recording or stop recording
 void XYSeriesIODevice::recording()
 {
     _recording = !_recording;

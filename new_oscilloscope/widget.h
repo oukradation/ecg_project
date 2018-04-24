@@ -56,6 +56,7 @@ private slots:
    void addFilter();
    void delFilter();
    void changeFilter(QListWidgetItem*);
+   void recordButton();
 
 private:
    void _init_graph();
@@ -63,6 +64,7 @@ private:
    void _init_audio();
    void _init_recordBox();
 
+   // graphic interface components
    QGroupBox *m_recordBox;
    QPushButton *m_recordButton;
    QLabel *m_bpmDisp;
@@ -76,14 +78,16 @@ private:
    QSpinBox *m_f1;
    QSpinBox *m_f2;
    QListWidget *m_filter_list;
-   XYSeriesIODevice *m_device;
 
    QChartView *m_chartView;
-   QChart *m_chart;
    QLineSeries *m_series;
    QChartView *m_freq_chartView;
-   QChart *m_freq_chart;
    QLineSeries *m_freq_series;
+
+   // device components
+   XYSeriesIODevice *m_device;
+   QChart *m_chart;
+   QChart *m_freq_chart;
    QAudioInput *m_audioInput;
 
 };

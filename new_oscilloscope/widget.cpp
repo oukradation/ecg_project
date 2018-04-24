@@ -8,11 +8,14 @@ Widget::Widget(QWidget *parent)
       m_series(0),
       m_audioInput(0)
 {
+    // initialize components
     _init_graph();
     _init_filtersection();
     _init_audio();
     _init_recordBox();
 
+    // layout for gui components
+    // graph section
     QVBoxLayout *graphLayout = new QVBoxLayout();
     graphLayout->addWidget(m_chartView);
     graphLayout->addWidget(m_freq_chartView);
@@ -38,13 +41,15 @@ Widget::Widget(QWidget *parent)
 
 void Widget::addFilter()
 {
+    // get values from GUI
     int f1, f2 = 0;
     filterType type = (filterType)m_whichFilter->currentIndex();
     f1 = m_f1->value();
     f2 = m_f2->value();
 
-    // add filter in signal processing
+    // make filter with given specifications
     filter fit;
+    // check if parameters are valid
     try
     {
         fit = filter(type,
@@ -55,12 +60,13 @@ void Widget::addFilter()
     }
     catch (exception& e)
     {
-        std::cout << "error making filter" << std::endl;
+        // if not successful
+        m_status->append("Error making filter with given specification");
         return;
     }
 
+    // add filter in signalProcessing instance
     m_device->getSig()->addFilter(fit);
-
 
     // add gui on the list
     QListWidgetItem *item = new QListWidgetItem(m_filter_list);
@@ -72,6 +78,8 @@ void Widget::addFilter()
     item->setSizeHint(filt->sizeHint());
     m_filter_list->setItemWidget(item, filt);
 
+    // log message
+    m_status->append("Filter succesfully added");
 }
 
 void Widget::delFilter()
@@ -81,6 +89,9 @@ void Widget::delFilter()
 
     // delete filterGui from filter list
     delete m_filter_list->currentItem();
+
+    // log message
+    m_status->append("Filter deleted");
 }
 
 void Widget::changeFilter(QListWidgetItem *item)
@@ -93,8 +104,27 @@ void Widget::changeFilter(QListWidgetItem *item)
         f2 = filtGui->_filterSlider_upper->value();
 
     // change filter
-    m_device->getSig()->changeAttr(m_filter_list->row(item),
-                              f1, f2, filtGui->getButtonState());
+    bool success = m_device->getSig()->changeAttr(m_filter_list->row(item),
+                                   f1, f2, filtGui->getButtonState());
+    if ( success )
+        m_status->append("Filter successfully changed");
+
+}
+
+// changes record button text to stop and writes to log
+void Widget::recordButton()
+{
+    bool rec = m_recordButton->isChecked();
+    if ( rec )
+    {
+        m_recordButton->setText("Stop");
+        m_status->append("Start recording");
+    }
+    else
+    {
+        m_recordButton->setText("Record");
+        m_status->append("Stop recording");
+    }
 }
 
 Widget::~Widget()
@@ -103,6 +133,7 @@ Widget::~Widget()
     m_device->close();
 }
 
+// inspired by example provided in Qt - audio example
 void Widget::_init_graph()
 {
     // signal section
@@ -142,6 +173,7 @@ void Widget::_init_graph()
 
 void Widget::_init_filtersection()
 {
+    // define GUI components
     m_newFilter = new QPushButton(tr("Add filter"), this);
     connect(m_newFilter, SIGNAL(clicked(bool)), this, SLOT(addFilter()));
     m_delFilter = new QPushButton(tr("delete"),this);
@@ -189,6 +221,7 @@ void Widget::_init_filtersection()
     m_filter_list = new QListWidget(this);
 }
 
+// inspired by audio example from Qt
 void Widget::_init_audio()
 {
     // audio setup
@@ -210,10 +243,11 @@ void Widget::_init_audio()
 
 void Widget::_init_recordBox()
 {
-
     m_recordBox = new QGroupBox(this);
     m_recordButton = new QPushButton("Record", this);
+    m_recordButton->setCheckable(true);
     connect(m_recordButton, SIGNAL(clicked(bool)), m_device, SLOT(recording()));
+    connect(m_recordButton, SIGNAL(clicked(bool)), this, SLOT(recordButton()));
     QLabel *bpm = new QLabel("BPM : ", this);
     m_bpmDisp = new QLabel(this);
     connect(m_device, SIGNAL(newBpm(int)), m_bpmDisp, SLOT(setNum(int)));
