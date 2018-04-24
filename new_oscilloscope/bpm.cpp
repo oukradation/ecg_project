@@ -7,7 +7,7 @@ Bpm::Bpm() :
     _bpmBuffer_idx(0),
     _prev_max_val(0),
     _current_max_val(0),
-    _gain(0.3),
+    _amplitude(0.3),
     _number_of_seconds(60.0),
     _state(peakState::IDLE),
     _sample_counter(0)
@@ -49,8 +49,8 @@ void Bpm::calculateBpm()
 
 /*
 * This function is working as a state machine. It stands idle if peak is lower than
-* specified gain(noise in signal).
-* If signal is getting higher than specified gain, it switches to search for peak.
+* specified amplitude(noise in signal).
+* If signal is getting higher than specified amplitude, it switches to search for peak.
 * In this state it calculates Beats Per Minute in addition to the time when each
 * new peak is found
 */
@@ -66,7 +66,7 @@ void Bpm::findPeak(float signal) {
          switch (_state)
          {
             case peakState::IDLE:
-                if (_current_max_val < _gain);
+                if (_current_max_val < _amplitude);
                 else
                 {
                     _state = peakState::SEARCHING_FOR_MAX;
@@ -76,7 +76,7 @@ void Bpm::findPeak(float signal) {
                 if (_current_max_val > _prev_max_val)
                 {
                 }
-                else if (_current_max_val <= _gain)
+                else if (_current_max_val <= _amplitude)
                 {
                     int distance = std::distance(_bpmBuffer.begin(), max_elem);
                     float foundAtTime = (_sampleCounterBuffer[distance])/float(SAMPLE_FREQ);

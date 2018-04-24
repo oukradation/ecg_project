@@ -10,7 +10,7 @@
 *The bpm class contains a state machine which has an active state and a passive state.
 * When state is active, it is searching for local maximum in signal buffer and calculates bpm.
 * Furthermore it gives the time of each peak found. When state is passive,
-* it does nothing else than checki if amplitude is high enough to
+* it does nothing else than check if amplitude is high enough to
 * switch back to active state
 */
 
@@ -32,7 +32,7 @@ class Bpm
         std::size_t _bpmBuffer_idx;
         float _prev_max_val;
         float _current_max_val;
-        float _gain;
+        float _amplitude;
         float _number_of_seconds;
         peakState _state;
         std::size_t _sample_counter;
