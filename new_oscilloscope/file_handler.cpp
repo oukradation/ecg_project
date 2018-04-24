@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
-
+#include <QDir>
 
 using namespace std;
 
@@ -47,5 +47,16 @@ void File_handler::addSample(float sample)
 bool File_handler::writeWavFile()
 {
     _file_counter++;
-    return  _audioFile.save("../new_oscilloscope/Audiofiles/test_" + to_string(_file_counter) + ".wav");
+
+    QDir dir("../new_oscilloscope/Audiofiles/test_");
+    if (!dir.exists()) {
+        dir.mkpath("../new_oscilloscope/Audiofiles/test_");
+        return  _audioFile.save("../new_oscilloscope/Audiofiles/test_" + to_string(_file_counter) + ".wav");
+    }
+
+    else {
+        return  _audioFile.save("../new_oscilloscope/Audiofiles/test_" + to_string(_file_counter) + ".wav");
+
+    }
+
 }
