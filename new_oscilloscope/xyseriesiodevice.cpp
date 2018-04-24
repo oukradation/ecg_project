@@ -41,7 +41,7 @@ XYSeriesIODevice::XYSeriesIODevice(QXYSeries * series, QXYSeries * freq_series, 
     sig = new signalProcessing();
     sigFrequency = new Frequency_plotter();
     sigBpm = new Bpm();
-
+    _recording = false;
 }
 
 
@@ -68,38 +68,34 @@ qint64 XYSeriesIODevice::writeData(const char * data, qint64 maxSize)
             points.append(QPointF(i - maxSize/resolution, oldPoints.at(i).y()));
     }
 
-
     qint64 size = points.count();
     for (int k = 0; k < maxSize/resolution; k++)
     {
         float next = ((quint8)data[k] - 128)/128.0;
         next = sig->process(next);
         sigFrequency->calculateFFT(next);
-        /*Uncomment to calculate BPM*/
-        /*
         sigBpm->findPeak(next);
-        */
         points.append(QPointF(k + size, next));
+
         //adding each sample from signal to write to file
-        /*Uncomment to write signal to file*/
-        /*
-          sigFile.addSample(next);
-        */
+        if ( _recording ) sigFile.addSample(next);
     }
     m_series->replace(points);
 
-
-    /* Uncomment to show FFT */
     freq_points.clear();
     std::vector<float> &tmp = sigFrequency->fftData();
-
     for (size_t k = 0; k < tmp.size(); k++)
     {
        freq_points.append(QPointF(float(k)/tmp.size()*SAMPLE_FREQ/2,tmp[k]));
     }
-
-    /* Uncomment to print current frequency */
-    //std::cout << sigFrequency->calculateFrequency() << std::endl;
     m_freq_series->replace(freq_points);
+
+    emit newBpm((int)sigBpm->getBpm());
+
     return maxSize;
+}
+
+void XYSeriesIODevice::recording()
+{
+    _recording = !_recording;
 }

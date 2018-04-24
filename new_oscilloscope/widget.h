@@ -19,6 +19,7 @@
 #include <QtCharts/QValueAxis>
 #include <QListWidgetItem>
 #include <QListWidget>
+#include <QTextEdit>
 
 #include <vector>
 #include <iostream>
@@ -60,8 +61,14 @@ private:
    void _init_graph();
    void _init_filtersection();
    void _init_audio();
+   void _init_recordBox();
 
-   QGroupBox *newFilterBox;
+   QGroupBox *m_recordBox;
+   QPushButton *m_recordButton;
+   QLabel *m_bpmDisp;
+   QTextEdit *m_status;
+
+   QGroupBox *m_newFilterBox;
    QPushButton *m_newFilter;
    QPushButton *m_delFilter;
    QComboBox *m_whichFilter;

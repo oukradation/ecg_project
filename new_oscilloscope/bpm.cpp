@@ -6,10 +6,11 @@ Bpm::Bpm() :
     _bpmBuffer_idx(0),
     _prev_max_val(0),
     _current_max_val(0),
-    _gain(0.3),
+    _gain(0.5),
     _number_of_seconds(60.0),
     _state(peakState::IDLE),
-    _sample_counter(0)
+    _sample_counter(0),
+    _bpm(0.0)
 {
 
 }
@@ -42,7 +43,8 @@ void Bpm::calculateBpm()
     float last_time = _beats_queue.back() / float(SAMPLE_FREQ);
     if( _beats_queue.size() > 1 )
     {
-        std::cout << "Bpm: " << _beats_queue.size() / float( last_time - first_time ) * _number_of_seconds << endl;
+        //std::cout << "Bpm: " << _beats_queue.size() / float( last_time - first_time ) * _number_of_seconds << endl;
+        _bpm = _beats_queue.size() / float( last_time - first_time ) * _number_of_seconds;
     }
 }
 

@@ -11,6 +11,7 @@ Widget::Widget(QWidget *parent)
     _init_graph();
     _init_filtersection();
     _init_audio();
+    _init_recordBox();
 
     QVBoxLayout *graphLayout = new QVBoxLayout();
     graphLayout->addWidget(m_chartView);
@@ -18,9 +19,10 @@ Widget::Widget(QWidget *parent)
 
     // filter section
     QVBoxLayout *filterBoxLayout = new QVBoxLayout();
-    filterBoxLayout->addWidget(newFilterBox);
+    filterBoxLayout->addWidget(m_newFilterBox);
     filterBoxLayout->addWidget(m_filter_list);
     filterBoxLayout->addWidget(m_delFilter);
+    filterBoxLayout->addWidget(m_recordBox);
 
     // main layout
     QHBoxLayout *mainLayout = new QHBoxLayout;
@@ -57,7 +59,7 @@ void Widget::addFilter()
         return;
     }
 
-    m_device->sig->addFilter(fit);
+    m_device->getSig()->addFilter(fit);
 
 
     // add gui on the list
@@ -75,7 +77,7 @@ void Widget::addFilter()
 void Widget::delFilter()
 {
     // delete filter from signalprocessing
-    m_device->sig->removeFilter(m_filter_list->currentIndex().row());
+    m_device->getSig()->removeFilter(m_filter_list->currentIndex().row());
 
     // delete filterGui from filter list
     delete m_filter_list->currentItem();
@@ -91,7 +93,7 @@ void Widget::changeFilter(QListWidgetItem *item)
         f2 = filtGui->_filterSlider_upper->value();
 
     // change filter
-    m_device->sig->changeAttr(m_filter_list->row(item),
+    m_device->getSig()->changeAttr(m_filter_list->row(item),
                               f1, f2, filtGui->getButtonState());
 }
 
@@ -106,7 +108,7 @@ void Widget::_init_graph()
     // signal section
     m_chart = new QChart;
     m_chartView = new QChartView(m_chart);
-    m_chartView->setMinimumSize(850, 250);
+    m_chartView->setMinimumSize(1200, 250);
     m_series = new QLineSeries;
     m_chart->addSeries(m_series);
     QValueAxis *axisX = new QValueAxis;
@@ -123,7 +125,7 @@ void Widget::_init_graph()
     // spectrogram section
     m_freq_chart = new QChart;
     m_freq_chartView = new QChartView(m_freq_chart);
-    m_freq_chartView->setMinimumSize(850,250);
+    m_freq_chartView->setMinimumSize(1200,250);
     m_freq_series = new QLineSeries;
     m_freq_chart->addSeries(m_freq_series);
     QValueAxis *freq_axisX = new QValueAxis;
@@ -181,8 +183,8 @@ void Widget::_init_filtersection()
     newFilterLayout->addLayout(f1Layout);
     newFilterLayout->addLayout(f2Layout);
 
-    newFilterBox = new QGroupBox("New filter", this);
-    newFilterBox->setLayout(newFilterLayout);
+    m_newFilterBox = new QGroupBox("New filter", this);
+    m_newFilterBox->setLayout(newFilterLayout);
 
     m_filter_list = new QListWidget(this);
 }
@@ -204,4 +206,26 @@ void Widget::_init_audio()
     m_device = new XYSeriesIODevice(m_series, m_freq_series, this);
     m_device->open(QIODevice::WriteOnly);
     m_audioInput->start(m_device);
+}
+
+void Widget::_init_recordBox()
+{
+
+    m_recordBox = new QGroupBox(this);
+    m_recordButton = new QPushButton("Record", this);
+    connect(m_recordButton, SIGNAL(clicked(bool)), m_device, SLOT(recording()));
+    QLabel *bpm = new QLabel("BPM : ", this);
+    m_bpmDisp = new QLabel(this);
+    connect(m_device, SIGNAL(newBpm(int)), m_bpmDisp, SLOT(setNum(int)));
+    m_status = new QTextEdit(this);
+
+    QHBoxLayout *recBpm = new QHBoxLayout;
+    recBpm->addWidget(m_recordButton);
+    recBpm->addWidget(bpm);
+    recBpm->addWidget(m_bpmDisp);
+    QVBoxLayout *recordLayout = new QVBoxLayout;
+    recordLayout->addLayout(recBpm);
+    recordLayout->addWidget(m_status);
+
+    m_recordBox->setLayout(recordLayout);
 }

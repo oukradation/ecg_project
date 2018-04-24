@@ -115,6 +115,7 @@ bool signalProcessing::changeAttr(int filt_num, int f1, int f2, bool onoff)
     return success;
 }
 
+// calculates coefficients for 2.order iir notchfilter
 void Notchfilter::coefficients(double fs, double f, double r, vector <Biquad>& biquad)
 {
     // notchfilter is always one biquad

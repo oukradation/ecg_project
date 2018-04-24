@@ -52,15 +52,26 @@ public:
     explicit XYSeriesIODevice(QXYSeries * series,
                               QXYSeries * freq_series,
                               QObject *parent = 0);
-    signalProcessing *sig;
-    Frequency_plotter *sigFrequency;
-    Bpm *sigBpm;
+    signalProcessing* getSig(){
+        return sig;
+    }
+
+public slots:
+    void recording();
+
+signals:
+    void newBpm(int);
 
 protected:
     qint64 readData(char * data, qint64 maxSize);
     qint64 writeData(const char * data, qint64 maxSize);
 
 private:
+    bool _recording;
+
+    signalProcessing *sig;
+    Frequency_plotter *sigFrequency;
+    Bpm *sigBpm;
     File_handler sigFile;
     QXYSeries *m_series;
     QXYSeries *m_freq_series;

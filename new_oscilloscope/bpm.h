@@ -19,14 +19,19 @@ class Bpm
     public:
         Bpm();
         ~Bpm();
+        float getBpm(){
+            return _bpm;
+        }
         void findPeak(float signal);
+
     private:
 
         enum peakState { IDLE, SEARCHING_FOR_MAX };
-        void calculateBpm();
         void addToQueue(std::size_t time);
+        void calculateBpm();
         std::vector<float> _bpmBuffer;
         std::size_t _bpmBuffer_idx;
+        float _bpm;
         float _prev_max_val;
         float _current_max_val;
         float _gain;
