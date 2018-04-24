@@ -41,6 +41,8 @@ void Bpm::calculateBpm()
 {
     float first_time = _beats_queue.front() / float(SAMPLE_FREQ);
     float last_time = _beats_queue.back() / float(SAMPLE_FREQ);
+    //bpm by dividing current FIFO size by distance between last peak time en next peak time multiplied 60
+
     if( _beats_queue.size() > 1 )
     {
         std::cout << "Bpm: " << int(_beats_queue.size() / float( last_time - first_time ) * _number_of_seconds) << endl;
@@ -77,7 +79,7 @@ void Bpm::findPeak(float signal) {
                 {
                 }
                 else if (_current_max_val <= _amplitude)
-                {
+                {   //distance is index of (max)peak value and (max)peak time
                     int distance = std::distance(_bpmBuffer.begin(), max_elem);
                     float foundAtTime = (_sampleCounterBuffer[distance])/float(SAMPLE_FREQ);
                     addToQueue( _sampleCounterBuffer[distance] );
