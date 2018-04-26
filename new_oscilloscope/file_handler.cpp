@@ -11,6 +11,7 @@ File_handler::File_handler()
 {
     _file_counter = 0;
     _counter = 0;
+    //creates a buffer which is 5 seconds long
     _buffer_size = SAMPLE_FREQ*5;
     _audioFile.setAudioBufferSize(1, _buffer_size);
     _audioFile.setSampleRate(SAMPLE_FREQ);
@@ -51,9 +52,9 @@ bool File_handler::writeWavFile()
 {
     _file_counter++;
 
-    QDir dir("../new_oscilloscope/Audiofiles/test_");
+    QDir dir("Audiofiles/test_");
     if (!dir.exists()) {
-        dir.mkpath("../new_oscilloscope/Audiofiles/test_");
+        dir.mkpath("Audiofiles/test_");
         return  _audioFile.save("../new_oscilloscope/Audiofiles/test_" + to_string(_file_counter) + ".wav");
     }
 
